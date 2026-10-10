@@ -36,7 +36,6 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Start-Animation */
     @keyframes crack-burst {
       0% { opacity: 0; transform: scale(0.6); }
       40% { opacity: 1; transform: scale(1.03); }
@@ -106,8 +105,6 @@
   <!-- CINEMATISCHE APP-START ANIMATION MIT PNG   -->
   <!-- ========================================== -->
   <div id="splashScreen" onclick="dismissSplash()" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#020108] transition-opacity duration-700 select-none cursor-pointer">
-    
-    <!-- Animierte Gura-Gura Raumrisse -->
     <div class="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
       <svg viewBox="0 0 500 800" class="w-full h-full text-purple-400 stroke-current splash-cracks" fill="none">
         <path d="M 250,400 L 210,320 L 150,290 L 90,220 L 30,200 M 150,290 L 170,190 L 130,120" stroke-width="2.5" stroke-linecap="round"/>
@@ -119,7 +116,6 @@
       </svg>
     </div>
 
-    <!-- Dein Whitebeard PNG im Start-Screen -->
     <div class="relative z-10 flex flex-col items-center">
       <div class="w-56 h-56 splash-skull flex items-center justify-center">
         <img src="whitebeard.png" alt="Whitebeard" class="w-full h-full object-contain filter drop-shadow-[0_0_25px_rgba(168,85,247,0.85)]">
@@ -140,7 +136,7 @@
     </p>
   </div>
 
-  <!-- HINTERGRUND: Dein Whitebeard PNG & Risse im Training -->
+  <!-- HINTERGRUND: Artwork & Gura-Risse -->
   <div class="fixed inset-0 pointer-events-none flex items-center justify-center z-0 overflow-hidden">
     <svg viewBox="0 0 500 800" class="absolute w-full h-full opacity-20 text-purple-400 stroke-current" fill="none">
       <path d="M 250,400 L 220,330 L 170,300 L 120,240 L 70,220 M 170,300 L 190,210 L 160,140" stroke-width="1.8" stroke-linecap="round"/>
@@ -150,16 +146,14 @@
       <circle cx="250" cy="400" r="45" stroke="#FFFFFF" stroke-width="1.2" stroke-dasharray="4 6" opacity="0.6"/>
       <circle cx="250" cy="400" r="110" stroke="#A855F7" stroke-width="1" stroke-dasharray="6 8" opacity="0.4"/>
     </svg>
-
-    <!-- Dein PNG dezent im Hintergrund -->
     <img src="whitebeard.png" alt="Whitebeard Watermark" class="w-[85vw] max-w-[420px] max-h-[50vh] object-contain opacity-20 filter drop-shadow-[0_0_30px_rgba(168,85,247,0.35)]">
   </div>
 
   <!-- HAUPT-CONTAINER -->
   <div class="w-full max-w-md min-h-screen flex flex-col relative z-10 px-4 py-5 pb-36">
 
-    <!-- Header -->
-    <header class="flex justify-between items-center mb-4">
+    <!-- Top-Header: Datum & Actions -->
+    <header class="flex justify-between items-center mb-3">
       <div>
         <div class="flex items-center gap-1.5">
           <span class="w-2 h-2 rounded-full bg-purple-500 animate-ping"></span>
@@ -168,17 +162,36 @@
         <p class="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold mt-0.5" id="cycleStatusStr">TAG 1 VON 3 • NEWGATE ÄRA</p>
       </div>
       <div class="flex items-center gap-2">
-        <button onclick="requestNotificationAccess()" class="p-2.5 rounded-full bg-brand-obsidian border border-brand-border text-purple-300 hover:text-white transition active:scale-95 shadow-md" title="Erinnerungen">
+        <button onclick="requestNotificationAccess()" class="p-2.5 rounded-full bg-brand-obsidian border border-brand-border text-purple-300 hover:text-white transition active:scale-95 shadow-md">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
         </button>
-        <button onclick="openSettingsModal()" class="p-2.5 rounded-full bg-brand-obsidian border border-brand-border text-purple-300 hover:text-white transition active:scale-95 shadow-md" title="Einstellungen">
+        <button onclick="openSettingsModal()" class="p-2.5 rounded-full bg-brand-obsidian border border-brand-border text-purple-300 hover:text-white transition active:scale-95 shadow-md">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         </button>
       </div>
     </header>
 
-    <!-- Hero-Split -->
-    <section class="my-2 select-none relative" id="swipeArea">
+    <!-- KOPFGELD & STREAK BANNER -->
+    <section class="obsidian-card rounded-2xl p-3 mb-3 flex items-center justify-between border-purple-900/60 shadow-lg">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-black border border-purple-500/50 flex items-center justify-center text-xs font-black text-purple-300">
+          ☠️
+        </div>
+        <div>
+          <span class="text-[9px] uppercase tracking-wider text-zinc-400 font-extrabold block">WANTED BOUNTY</span>
+          <span id="bountyDisplay" class="text-sm font-black tracking-wide text-white drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]">1.500.000 ฿</span>
+        </div>
+      </div>
+      
+      <!-- Whitebeard-Kopf Flammen Streak (7 Tage) -->
+      <div class="flex flex-col items-end">
+        <span class="text-[9px] uppercase tracking-wider text-purple-300 font-bold mb-1" id="streakLabel">STREAK: 0 TAGE</span>
+        <div class="flex items-center gap-1.5" id="streakFlameRow"></div>
+      </div>
+    </section>
+
+    <!-- Hero-Split Titel -->
+    <section class="my-1.5 select-none relative" id="swipeArea">
       <div class="flex items-center justify-between">
         <button onclick="shiftCycle(-1)" class="p-2 text-zinc-500 hover:text-purple-300 transition active:scale-90">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
@@ -187,7 +200,7 @@
           <h1 id="heroSplitTitle" class="text-3xl font-black tracking-tight text-white drop-shadow-[0_0_20px_rgba(168,85,247,0.7)]">
             UNTERKÖRPER
           </h1>
-          <div class="flex items-center justify-center gap-2 mt-1">
+          <div class="flex items-center justify-center gap-2 mt-0.5">
             <span class="h-[1px] w-6 bg-purple-500/50"></span>
             <p id="heroSplitSubtitle" class="text-xs uppercase tracking-widest text-purple-300 font-extrabold">
               BEINE & WADEN
@@ -202,8 +215,8 @@
     </section>
 
     <!-- Morgen-Gewicht Check -->
-    <section class="obsidian-card rounded-2xl p-4 my-3">
-      <div class="flex justify-between items-center mb-2.5">
+    <section class="obsidian-card rounded-2xl p-4 my-2.5">
+      <div class="flex justify-between items-center mb-2">
         <div class="flex items-center gap-1.5">
           <span class="text-sm">⚖️</span>
           <span class="text-xs uppercase font-extrabold tracking-wider text-purple-200">Morgen-Gewicht</span>
@@ -215,8 +228,8 @@
       <div class="flex items-center gap-3">
         <div class="relative flex-1">
           <input type="number" step="0.05" id="morningWeightInput" placeholder="z. B. 69.45" 
-                 class="w-full bg-black/70 border border-brand-border rounded-xl px-3.5 py-2.5 text-lg font-black text-white focus:outline-none focus:border-brand-purple">
-          <span class="absolute right-3 top-3 text-xs text-zinc-500 font-bold">KG</span>
+                 class="w-full bg-black/70 border border-brand-border rounded-xl px-3.5 py-2 text-lg font-black text-white focus:outline-none focus:border-brand-purple">
+          <span class="absolute right-3 top-2.5 text-xs text-zinc-500 font-bold">KG</span>
         </div>
         <button onclick="saveMorningWeight()" class="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white font-black rounded-xl transition active:scale-95 text-xs shadow-lg shadow-purple-900/40">
           EINTRAGEN
@@ -224,7 +237,23 @@
       </div>
     </section>
 
-    <!-- Seismische Skala -->
+    <!-- PRAISE WHITEBEARD [KREATIN NEHMEN] BUTTON -->
+    <section class="my-1.5">
+      <button onclick="togglePraiseCreatine()" id="praiseCreatineBtn" class="w-full py-3 px-4 obsidian-card rounded-2xl flex items-center justify-between transition-all duration-300 active:scale-98">
+        <div class="flex items-center gap-3">
+          <span class="text-lg">💊</span>
+          <div class="text-left">
+            <span class="text-xs font-black tracking-wide text-white block">Praise Whitebeard [Kreatin nehmen]</span>
+            <span class="text-[10px] text-zinc-400 font-semibold" id="creatineStatusText">Tageszufuhr für Muskelwachstum (+50.000 ฿)</span>
+          </div>
+        </div>
+        <div id="creatineCheckBadge" class="w-6 h-6 rounded-lg border border-brand-border flex items-center justify-center text-xs font-black text-transparent transition-all">
+          ✓
+        </div>
+      </button>
+    </section>
+
+    <!-- Seismische Gura-Gura Skala -->
     <section id="workoutProgressSection" class="obsidian-card rounded-2xl p-4 my-2">
       <div class="flex justify-between items-center text-xs mb-2">
         <span class="text-zinc-300 font-bold" id="progressCountStr">0 von 5 absolviert</span>
@@ -238,10 +267,10 @@
       </div>
     </section>
 
-    <!-- Übungsliste -->
-    <main id="exerciseListContainer" class="flex flex-col gap-3 my-3"></main>
+    <!-- Übungsliste (UK/OK) -->
+    <main id="exerciseListContainer" class="flex flex-col gap-3 my-2.5"></main>
 
-    <!-- Restday -->
+    <!-- Restday Ansicht -->
     <section id="restdaySection" class="hidden flex flex-col gap-4 my-3">
       <div class="obsidian-card rounded-2xl p-5 text-center border-purple-500/40">
         <span class="text-4xl mb-2 block">⚓</span>
@@ -249,9 +278,12 @@
         <p class="text-xs text-zinc-300 mt-2 max-w-xs mx-auto leading-relaxed">
           "Wer Großes vollbringen will, muss seinem Körper Zeit geben, die Erschütterungen zu verarbeiten."
         </p>
+        <button onclick="confirmRestDayRegen()" id="confirmRestDayBtn" class="mt-4 px-4 py-2 bg-purple-950 border border-purple-600 rounded-xl text-xs font-black text-purple-200 active:scale-95 transition">
+          ⚓ Regeneration für Streak ehren (+75.000 ฿)
+        </button>
       </div>
 
-      <!-- Foto Box -->
+      <!-- Foto Box mit Multi-Upload & Geist-Silhouette -->
       <div class="obsidian-card rounded-2xl p-4">
         <div class="flex justify-between items-center mb-3">
           <div class="flex items-center gap-2">
@@ -313,7 +345,7 @@
       </div>
     </section>
 
-    <!-- Graphen -->
+    <!-- X/Y Progression Kurven -->
     <section class="obsidian-card rounded-2xl p-4 my-3 shadow-lg">
       <h3 class="text-xs uppercase font-black tracking-wider text-purple-300 mb-3 flex items-center gap-1.5">
         <span>📈</span> Kraft & Körper-Verlauf
@@ -335,7 +367,7 @@
 
   </div>
 
-  <!-- Timer HUD -->
+  <!-- Timer HUD (Reiner Sound, KEINE Vibration) -->
   <div id="timerBar" class="fixed bottom-4 left-4 right-4 max-w-md mx-auto bg-brand-obsidian/95 border border-purple-500 rounded-2xl p-3 shadow-2xl flex items-center justify-between z-40 transition-all duration-300 translate-y-36">
     <div class="flex items-center gap-3">
       <span class="text-2xl">⏱️</span>
@@ -360,7 +392,8 @@
       <p class="text-[11px] uppercase tracking-widest text-purple-300 font-black mt-0.5">DER MANN, DER IM STEHEN STARB</p>
       <div class="my-4 p-3.5 bg-black/80 rounded-2xl border border-brand-border text-left">
         <p class="text-xs text-purple-200 font-extrabold" id="victoryStatsTonnage">Bewegte Gesamtlast: 0 kg</p>
-        <p class="text-xs text-zinc-400 mt-1" id="victoryStatsExercises">Alle 5 Übungen bezwungen!</p>
+        <p class="text-xs text-zinc-400 mt-1" id="victoryStatsExercises">Alle Übungen bezwungen!</p>
+        <p class="text-xs text-yellow-400 font-bold mt-1" id="victoryStatsBounty">+0 ฿ Kopfgeld erhalten</p>
       </div>
       <p class="text-xs italic text-zinc-300 my-4 leading-relaxed" id="victoryQuoteText">
         "Selbst im Moment des Todes wich sein gewaltiger Körper keinen einzigen Schritt zurück. Gurararara!"
@@ -409,34 +442,44 @@
   </div>
 
   <script>
+    // --- 1. DATEN-STRUKTUR & PERSISTENZ ---
     const DEFAULT_DATA = {
       cycleIndex: 0,
+      lastActiveDate: new Date().toISOString().split('T')[0],
+      bounty: 1500000,
+      streakHistory: {},
+      creatineHistory: {},
+      overloadAlerts: {},
       weights: {},
       records: {},
       photosList: [],
       exercises: {
         uk: [
-          { name: "eGym Beinpresse", s1_reps: 12, s1_kg: 140, s2_reps: 12, s2_kg: 140, done: false },
-          { name: "eGym Leg Extension", s1_reps: 12, s1_kg: 45, s2_reps: 12, s2_kg: 45, done: false },
-          { name: "Leg Curl", s1_reps: 12, s1_kg: 40, s2_reps: 12, s2_kg: 40, done: false },
-          { name: "Rotary Calf", s1_reps: 12, s1_kg: 62.5, s2_reps: 12, s2_kg: 62.5, done: false },
-          { name: "Abduktoren & Adduktoren", s1_reps: 12, s1_kg: 55, s2_reps: 12, s2_kg: 55, done: false }
+          { name: "eGym Beinpresse", targetReps: 12, s1_reps: 12, s1_kg: 140, s2_reps: 12, s2_kg: 140, done: false },
+          { name: "eGym Leg Extension", targetReps: 12, s1_reps: 12, s1_kg: 45, s2_reps: 12, s2_kg: 45, done: false },
+          { name: "Leg Curl", targetReps: 12, s1_reps: 12, s1_kg: 40, s2_reps: 12, s2_kg: 40, done: false },
+          { name: "Rotary Calf", targetReps: 12, s1_reps: 12, s1_kg: 62.5, s2_reps: 12, s2_kg: 62.5, done: false },
+          { name: "Abduktoren & Adduktoren", targetReps: 12, s1_reps: 12, s1_kg: 55, s2_reps: 12, s2_kg: 55, done: false }
         ],
         ok: [
-          { name: "eGym Latzug", s1_reps: 10, s1_kg: 75, s2_reps: 10, s2_kg: 75, done: false },
-          { name: "eGym Brustpresse", s1_reps: 10, s1_kg: 70, s2_reps: 8, s2_kg: 70, done: false },
-          { name: "eGym Ruderzug", s1_reps: 10, s1_kg: 65, s2_reps: 10, s2_kg: 65, done: false },
-          { name: "eGym Rotator (Bauch)", s1_reps: 15, s1_kg: 40, s2_reps: 15, s2_kg: 40, done: false },
-          { name: "eGym Lower Back", s1_reps: 12, s1_kg: 60, s2_reps: 12, s2_kg: 60, done: false },
-          { name: "eGym Bauch", s1_reps: 15, s1_kg: 45, s2_reps: 15, s2_kg: 45, done: false },
-          { name: "Seitheben", s1_reps: 12, s1_kg: 12, s2_reps: 12, s2_kg: 12, done: false },
-          { name: "Bizeps Curls", s1_reps: 10, s1_kg: 16, s2_reps: 10, s2_kg: 16, done: false },
-          { name: "Trizeps Maschine", s1_reps: 12, s1_kg: 45, s2_reps: 10, s2_kg: 45, done: false }
+          { name: "eGym Latzug", targetReps: 10, s1_reps: 10, s1_kg: 75, s2_reps: 10, s2_kg: 75, done: false },
+          { name: "eGym Brustpresse", targetReps: 10, s1_reps: 10, s1_kg: 70, s2_reps: 8, s2_kg: 70, done: false },
+          { name: "eGym Ruderzug", targetReps: 10, s1_reps: 10, s1_kg: 65, s2_reps: 10, s2_kg: 65, done: false },
+          { name: "eGym Rotator (Bauch)", targetReps: 15, s1_reps: 15, s1_kg: 40, s2_reps: 15, s2_kg: 40, done: false },
+          { name: "eGym Lower Back", targetReps: 12, s1_reps: 12, s1_kg: 60, s2_reps: 12, s2_kg: 60, done: false },
+          { name: "eGym Bauch", targetReps: 15, s1_reps: 15, s1_kg: 45, s2_reps: 15, s2_kg: 45, done: false },
+          { name: "Seitheben", targetReps: 12, s1_reps: 12, s1_kg: 12, s2_reps: 12, s2_kg: 12, done: false },
+          { name: "Bizeps Curls", targetReps: 10, s1_reps: 10, s1_kg: 16, s2_reps: 10, s2_kg: 16, done: false },
+          { name: "Trizeps Maschine", targetReps: 12, s1_reps: 12, s1_kg: 45, s2_reps: 10, s2_kg: 45, done: false }
         ]
       }
     };
 
     let appData = JSON.parse(localStorage.getItem('wb_gym_data') || 'null') || DEFAULT_DATA;
+    if (!appData.bounty) appData.bounty = 1500000;
+    if (!appData.streakHistory) appData.streakHistory = {};
+    if (!appData.creatineHistory) appData.creatineHistory = {};
+    if (!appData.overloadAlerts) appData.overloadAlerts = {};
     if (!appData.photosList) appData.photosList = [];
 
     const todayStr = new Date().toISOString().split('T')[0];
@@ -449,31 +492,51 @@
       }
     }
 
+    // Splash Screen Steuerung
     let splashDismissed = false;
     function setupSplashScreen() {
-      setTimeout(() => {
-        dismissSplash();
-      }, 2100);
+      setTimeout(() => { dismissSplash(); }, 2100);
     }
-
     function dismissSplash() {
       if (splashDismissed) return;
       splashDismissed = true;
       const splash = document.getElementById('splashScreen');
       if (splash) {
         splash.style.opacity = '0';
-        setTimeout(() => {
-          splash.style.display = 'none';
-        }, 700);
+        setTimeout(() => { splash.style.display = 'none'; }, 700);
+      }
+    }
+
+    // --- 2. AUTOMATISCHER MITTERNACHTS-WECHSEL ---
+    function handleMidnightCycleAdvance() {
+      if (!appData.lastActiveDate) {
+        appData.lastActiveDate = todayStr;
+        return;
+      }
+      if (appData.lastActiveDate !== todayStr) {
+        const d1 = new Date(appData.lastActiveDate);
+        const d2 = new Date(todayStr);
+        const diffDays = Math.floor((d2 - d1) / (1000 * 60 * 60 * 24));
+        if (diffDays > 0) {
+          appData.cycleIndex = (appData.cycleIndex + diffDays) % 3;
+          // Übungen für neuen Tag zurücksetzen
+          ['uk', 'ok'].forEach(k => {
+            appData.exercises[k].forEach(e => e.done = false);
+          });
+          appData.lastActiveDate = todayStr;
+          saveAppData();
+        }
       }
     }
 
     function init() {
       setupSplashScreen();
+      handleMidnightCycleAdvance();
       renderDate();
-      calculateCycle();
       renderCurrentSplit();
       initMorningWeight();
+      initCreatineButton();
+      renderBountyAndStreak();
       renderCharts();
       setupSwipe();
       autoAskNotification();
@@ -482,14 +545,6 @@
     function renderDate() {
       const options = { weekday: 'short', day: '2-digit', month: 'short' };
       document.getElementById('currentDateStr').innerText = new Date().toLocaleDateString('de-DE', options).toUpperCase();
-    }
-
-    function calculateCycle() {
-      if (appData.cycleIndex === undefined) {
-        const epoch = new Date('2026-01-01').getTime();
-        const diffDays = Math.floor((new Date().getTime() - epoch) / (1000 * 60 * 60 * 24));
-        appData.cycleIndex = Math.abs(diffDays % 3);
-      }
     }
 
     function shiftCycle(delta) {
@@ -534,6 +589,95 @@
       updateProgress();
     }
 
+    // --- 3. KOPFGELD & WHITEBEARD FLAMMEN-STREAK ---
+    function renderBountyAndStreak() {
+      document.getElementById('bountyDisplay').innerText = `${appData.bounty.toLocaleString('de-DE')} ฿`;
+
+      // Streak berechnen (konsekutive Tage)
+      let streakCount = 0;
+      let checkDate = new Date();
+      // Falls heute noch nichts: prüfe ob gestern etwas war
+      let checkStr = checkDate.toISOString().split('T')[0];
+      if (!appData.streakHistory[checkStr]) {
+        checkDate.setDate(checkDate.getDate() - 1);
+        checkStr = checkDate.toISOString().split('T')[0];
+      }
+      while (appData.streakHistory[checkStr]) {
+        streakCount++;
+        checkDate.setDate(checkDate.getDate() - 1);
+        checkStr = checkDate.toISOString().split('T')[0];
+      }
+      document.getElementById('streakLabel').innerText = `STREAK: ${streakCount} TAGE`;
+
+      // 7-Tage Flammen-Schädel Reihe zeichnen
+      const flameRow = document.getElementById('streakFlameRow');
+      flameRow.innerHTML = '';
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const ds = d.toISOString().split('T')[0];
+        const isDone = Boolean(appData.streakHistory[ds]);
+
+        const skull = document.createElement('div');
+        skull.className = `w-5 h-5 flex items-center justify-center transition-all ${isDone ? 'scale-110 drop-shadow-[0_0_6px_rgba(168,85,247,0.9)] text-purple-300' : 'opacity-25 text-zinc-600'}`;
+        // Stilisiertes Whitebeard-Schädel-Flammen-SVG
+        skull.innerHTML = `
+          <svg viewBox="0 0 24 24" class="w-full h-full fill-current">
+            <path d="M12 2C8 7 5 10 5 15C5 18.8 8.1 22 12 22C15.9 22 19 18.8 19 15C19 10 16 7 12 2ZM12 18.5C9.5 18.5 7.5 17 7.5 15.5C8.8 16.2 10.4 16.5 12 16.5C13.6 16.5 15.2 16.2 16.5 15.5C16.5 17 14.5 18.5 12 18.5ZM17 14C15.5 14.8 13.8 15 12 15C10.2 15 8.5 14.8 7 14C7.5 13 8.5 12 9.5 12C10.3 12 11.1 12.3 12 12.3C12.9 12.3 13.7 12 14.5 12C15.5 12 16.5 13 17 14Z"/>
+          </svg>
+        `;
+        flameRow.appendChild(skull);
+      }
+    }
+
+    // --- 4. PRAISE WHITEBEARD [KREATIN BUTTON] ---
+    function initCreatineButton() {
+      const isTaken = Boolean(appData.creatineHistory[todayStr]);
+      const btn = document.getElementById('praiseCreatineBtn');
+      const badge = document.getElementById('creatineCheckBadge');
+      const status = document.getElementById('creatineStatusText');
+
+      if (isTaken) {
+        btn.classList.add('border-purple-600', 'bg-purple-950/30');
+        badge.className = "w-6 h-6 rounded-lg bg-purple-600 border border-purple-400 flex items-center justify-center text-xs font-black text-white shadow-[0_0_8px_rgba(168,85,247,0.8)]";
+        status.innerText = "Whitebeard geehrt: Kreatin eingenommen! ✓ (+50.000 ฿ verbucht)";
+      } else {
+        btn.classList.remove('border-purple-600', 'bg-purple-950/30');
+        badge.className = "w-6 h-6 rounded-lg border border-brand-border flex items-center justify-center text-xs font-black text-transparent";
+        status.innerText = "Tageszufuhr für Muskelwachstum (+50.000 ฿)";
+      }
+    }
+
+    function togglePraiseCreatine() {
+      const isTaken = Boolean(appData.creatineHistory[todayStr]);
+      if (!isTaken) {
+        appData.creatineHistory[todayStr] = true;
+        appData.bounty += 50000;
+        playDeepGuraSound();
+      } else {
+        delete appData.creatineHistory[todayStr];
+        appData.bounty = Math.max(1500000, appData.bounty - 50000);
+      }
+      saveAppData();
+      initCreatineButton();
+      renderBountyAndStreak();
+    }
+
+    // Ruhetag ehren
+    function confirmRestDayRegen() {
+      if (!appData.streakHistory[todayStr]) {
+        appData.streakHistory[todayStr] = { type: 'rest', done: true };
+        appData.bounty += 75000;
+        saveAppData();
+        renderBountyAndStreak();
+        playDeepGuraSound();
+        const btn = document.getElementById('confirmRestDayBtn');
+        btn.innerText = "✅ Regeneration geehrt (+75.000 ฿ erhalten)";
+        btn.disabled = true;
+      }
+    }
+
+    // --- 5. ÜBUNGEN & PROGRESSIVE OVERLOAD ERINNERUNG ---
     function renderExercises(splitKey) {
       const container = document.getElementById('exerciseListContainer');
       container.innerHTML = '';
@@ -546,8 +690,17 @@
         card.className = `obsidian-card rounded-2xl p-4 transition-all duration-200 ${isDone ? 'border-purple-600/70 bg-purple-950/20' : ''}`;
 
         const isRecord = (ex.s1_kg > (appData.records[ex.name] || 0) || ex.s2_kg > (appData.records[ex.name] || 0));
+        const overloadAlert = appData.overloadAlerts[ex.name];
 
         card.innerHTML = `
+          <!-- Overload Reminder Banner (falls letztes Mal gemeistert) -->
+          ${overloadAlert?.ready ? `
+            <div class="mb-2.5 px-3 py-1.5 rounded-xl bg-purple-950/80 border border-purple-500 flex items-center justify-between text-[11px] font-black text-purple-200 shadow-[0_0_10px_rgba(168,85,247,0.4)]">
+              <span>⚡ GURA-STEIGERUNG: Letztes Mal 2×${ex.targetReps || 12} gemeistert!</span>
+              <span class="text-white bg-purple-800 px-1.5 py-0.5 rounded">Heute ${overloadAlert.suggestedKg} kg!</span>
+            </div>
+          ` : ''}
+
           <div class="flex items-center justify-between cursor-pointer" onclick="toggleDetails('${splitKey}', ${idx})">
             <div class="flex items-center gap-3">
               <button onclick="event.stopPropagation(); toggleExerciseCheck('${splitKey}', ${idx})" 
@@ -615,6 +768,7 @@
       checkAllCompleted(splitKey);
     }
 
+    // --- 6. HAPTIK BEI PR & PROGRESSIVE OVERLOAD PRÜFUNG ---
     function saveExerciseDetails(splitKey, idx) {
       const ex = appData.exercises[splitKey][idx];
       const r1 = parseInt(document.getElementById(`s1_reps_${splitKey}_${idx}`).value) || 0;
@@ -629,17 +783,42 @@
       ex.s2_reps = r2; ex.s2_kg = k2;
       ex.done = true;
 
-      if (currentMax > previousRecord) {
+      // PR-Prüfung + Haptisches Beben nur hier!
+      if (currentMax > previousRecord && previousRecord > 0) {
         appData.records[ex.name] = currentMax;
+        appData.bounty += 100000; // +100.000 ฿ für PR
+        
+        // Haptischer Schockwellen-Puls auf S25 Ultra
+        if (navigator.vibrate) {
+          navigator.vibrate([100, 50, 160]);
+        }
+
         const card = document.getElementById(`card_${splitKey}_${idx}`);
         if (card) {
           card.classList.add('pr-flash');
           setTimeout(() => card.classList.remove('pr-flash'), 700);
         }
+      } else if (!appData.records[ex.name]) {
+        appData.records[ex.name] = currentMax;
+      }
+
+      // Overload Advisor Prüfung (Ziel z. B. 12 Wdh. in beiden Sätzen)
+      const target = ex.targetReps || 12;
+      if (r1 >= target && r2 >= target) {
+        appData.overloadAlerts[ex.name] = {
+          ready: true,
+          lastKg: currentMax,
+          suggestedKg: currentMax + 2.5
+        };
+      } else {
+        if (appData.overloadAlerts[ex.name]) {
+          appData.overloadAlerts[ex.name].ready = false;
+        }
       }
 
       saveAppData();
       renderCurrentSplit();
+      renderBountyAndStreak();
       startTimer(90);
       checkAllCompleted(splitKey);
     }
@@ -684,8 +863,18 @@
         tonnage += (e.s1_reps * e.s1_kg) + (e.s2_reps * e.s2_kg);
       });
 
+      // Verdientes Kopfgeld für dieses Workout: Basis 150k + (Tonnage / 100)
+      const earnedBounty = 150000 + Math.round(tonnage / 100);
+      if (!appData.streakHistory[todayStr]) {
+        appData.bounty += earnedBounty;
+        appData.streakHistory[todayStr] = { type: 'workout', done: true };
+        saveAppData();
+        renderBountyAndStreak();
+      }
+
       document.getElementById('victoryStatsTonnage').innerText = `Bewegte Gesamtlast: ${tonnage.toLocaleString('de-DE')} kg`;
       document.getElementById('victoryStatsExercises').innerText = `Alle ${appData.exercises[splitKey].length} Übungen bezwungen!`;
+      document.getElementById('victoryStatsBounty').innerText = `+${earnedBounty.toLocaleString('de-DE')} ฿ Kopfgeld erhalten!`;
 
       const quotes = [
         "\"Selbst im Moment des Todes wich sein gewaltiger Körper keinen einzigen Schritt zurück. Gurarara!\"",
@@ -700,6 +889,7 @@
       document.getElementById('victoryModal').classList.add('hidden');
     }
 
+    // Tiefer Gura Sound
     function playDeepGuraSound() {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -720,7 +910,7 @@
       }
     }
 
-    // Timer Logik
+    // Timer Logik (Reiner Sound, KEINE Vibration)
     let timerInterval = null;
     let timerRemaining = 0;
 
@@ -733,7 +923,7 @@
         timerRemaining--;
         if (timerRemaining <= 0) {
           clearInterval(timerInterval);
-          playDeepGuraSound();
+          playDeepGuraSound(); // Reiner Sound!
           stopTimer();
         } else {
           updateTimerDisplay();
@@ -759,6 +949,7 @@
       document.getElementById('timerBar').classList.add('translate-y-36');
     }
 
+    // Morgen-Gewicht
     function initMorningWeight() {
       document.getElementById('morningWeightInput').value = appData.weights[todayStr] || '';
       calculateSevenDayAverage();
@@ -783,6 +974,7 @@
       }
     }
 
+    // Diagramme
     function renderCharts() {
       renderWeightChart();
       populateExerciseSelect();
@@ -796,7 +988,6 @@
         container.innerHTML = '<span class="text-zinc-600 text-[10px] m-auto">Mindestens 2 Tage wiegen für Trendlinie</span>';
         return;
       }
-
       const values = dates.map(d => appData.weights[d]);
       const min = Math.min(...values) - 0.5;
       const max = Math.max(...values) + 0.5;
@@ -860,7 +1051,7 @@
       `;
     }
 
-    // --- Multi-Foto & Geist ---
+    // --- 7. RESTDAY FOTO-GALERIE & GEIST-SILHOUETTE ---
     let activePhotoIndex = 0;
     let isGhostActive = false;
 
@@ -1007,18 +1198,16 @@
       }, 450);
     }
 
-    // System & Mitteilungen
+    // Notifications & Backup
     function autoAskNotification() {
       if ("Notification" in window && Notification.permission === "default") {
         setTimeout(() => { Notification.requestPermission(); }, 2500);
       }
     }
-
     function requestNotificationAccess() {
       document.getElementById('notificationModal').classList.remove('hidden');
       updateNotifStatus();
     }
-
     function updateNotifStatus() {
       const statusEl = document.getElementById('notifStatusText');
       if (!("Notification" in window)) {
@@ -1033,7 +1222,6 @@
         statusEl.innerText = "⚠️ Berechtigung noch nicht erteilt.";
       }
     }
-
     function enablePushNotifications() {
       if ("Notification" in window) {
         Notification.requestPermission().then(p => {
@@ -1044,7 +1232,6 @@
         });
       }
     }
-
     function sendTestNotification() {
       playDeepGuraSound();
       if ("Notification" in window && Notification.permission === "granted") {

@@ -15,9 +15,10 @@
               purple: '#A855F7',
               lightPurple: '#C084FC',
               darkPurple: '#581C87',
-              surface: '#0F0E17',
-              card: '#161426',
-              border: '#2A244D'
+              obsidian: '#0A0814',
+              card: '#120F24',
+              border: '#2E2657',
+              borderGlow: '#6B21A8'
             }
           }
         }
@@ -25,30 +26,50 @@
     }
   </script>
   <style>
+    /* Absolutes AMOLED-Schwarz & butterweiches 120Hz Scrollen */
     body {
-      background-color: #05040A;
+      background-color: #020108;
       color: #FFFFFF;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       overflow-x: hidden;
       margin: 0;
       padding: 0;
-    }
-    
-    @keyframes victory-glow {
-      0%, 100% { box-shadow: 0 0 25px rgba(168, 85, 247, 0.4); }
-      50% { box-shadow: 0 0 50px rgba(192, 132, 252, 0.8); }
-    }
-    .victory-box {
-      animation: victory-glow 2s infinite ease-in-out;
+      -webkit-tap-highlight-color: transparent;
     }
 
+    /* Leuchtendes Haki & Gura-Gura Sieges-Glanz */
+    @keyframes haki-glow {
+      0%, 100% {
+        box-shadow: 0 0 30px rgba(168, 85, 247, 0.35), inset 0 0 15px rgba(168, 85, 247, 0.2);
+        border-color: #A855F7;
+      }
+      50% {
+        box-shadow: 0 0 55px rgba(192, 132, 252, 0.7), inset 0 0 25px rgba(192, 132, 252, 0.4);
+        border-color: #FFFFFF;
+      }
+    }
+    .haki-box {
+      animation: haki-glow 2.8s infinite ease-in-out;
+    }
+
+    /* PR Schockwellen-Puls bei neuem Bestwert */
     @keyframes pr-pulse {
       0% { transform: scale(1); border-color: #C084FC; }
-      50% { transform: scale(1.02); border-color: #FFFFFF; box-shadow: 0 0 20px rgba(168, 85, 247, 0.6); }
-      100% { transform: scale(1); border-color: #2A244D; }
+      50% { transform: scale(1.02); border-color: #FFFFFF; box-shadow: 0 0 25px rgba(168, 85, 247, 0.8); }
+      100% { transform: scale(1); border-color: #2E2657; }
     }
     .pr-flash {
       animation: pr-pulse 0.6s ease-out;
+    }
+
+    /* Scharfer Obsidian-Look mit Haki-Kante */
+    .obsidian-card {
+      background: linear-gradient(165deg, #131024 0%, #0A0814 100%);
+      border: 1px solid #2B2352;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    }
+    .obsidian-card:active {
+      border-color: #7E22CE;
     }
 
     ::-webkit-scrollbar {
@@ -58,151 +79,243 @@
 </head>
 <body class="min-h-screen relative flex flex-col items-center">
 
-  <!-- Whitebeard Jolly Roger Wasserzeichen -->
-  <div class="fixed inset-0 pointer-events-none flex items-center justify-center z-0 opacity-15">
-    <svg viewBox="0 0 200 200" class="w-[85vw] max-w-[420px] text-purple-400 fill-current">
-      <path d="M 25,25 L 175,175 M 175,25 L 25,175" stroke="currentColor" stroke-width="16" stroke-linecap="round"/>
-      <circle cx="100" cy="95" r="42" fill="#05040A" stroke="currentColor" stroke-width="7"/>
-      <circle cx="85" cy="90" r="9" fill="currentColor"/>
-      <circle cx="115" cy="90" r="9" fill="currentColor"/>
-      <polygon points="100,102 94,114 106,114" fill="currentColor"/>
-      <path d="M 80,122 L 80,138 L 120,138 L 120,122 Z" fill="#05040A" stroke="currentColor" stroke-width="5"/>
-      <path d="M 20,105 Q 100,150 180,105 Q 100,130 20,105 Z" fill="#FFFFFF"/>
+  <!-- HINTERGRUND: Originalgetreuer Whitebeard Jolly Roger & Gura-Gura Raumrisse -->
+  <div class="fixed inset-0 pointer-events-none flex items-center justify-center z-0 overflow-hidden">
+    <!-- Gura-Gura Risse (Zerbrechende Luft) -->
+    <svg viewBox="0 0 500 800" class="absolute w-full h-full opacity-20 text-purple-400 stroke-current" fill="none">
+      <path d="M 250,400 L 220,330 L 170,300 L 120,240 L 70,220 M 170,300 L 190,210 L 160,140" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M 250,400 L 290,340 L 340,310 L 410,290 L 460,210 M 340,310 L 360,220 L 420,160" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M 250,400 L 210,480 L 150,520 L 90,580 L 40,650 M 150,520 L 180,600 L 140,680" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M 250,400 L 280,470 L 330,530 L 380,590 L 450,660 M 330,530 L 310,620 L 350,710" stroke-width="1.8" stroke-linecap="round"/>
+      <!-- Schockwellen-Epizentrum Kreis -->
+      <circle cx="250" cy="400" r="45" stroke="#FFFFFF" stroke-width="1.2" stroke-dasharray="4 6" opacity="0.6"/>
+      <circle cx="250" cy="400" r="110" stroke="#A855F7" stroke-width="1" stroke-dasharray="6 8" opacity="0.4"/>
+    </svg>
+
+    <!-- Der Original Whitebeard Pirates Jolly Roger -->
+    <svg viewBox="0 0 400 400" class="w-[88vw] max-w-[420px] opacity-25 drop-shadow-[0_0_25px_rgba(168,85,247,0.4)]">
+      <g fill="#A855F7" stroke="#A855F7" stroke-linejoin="round">
+        <!-- Riesenknochen Oben-Links nach Unten-Rechts -->
+        <path d="M 60,70 C 45,55 60,35 75,45 C 90,30 110,45 100,60 L 300,340 C 315,325 335,340 325,355 C 340,370 320,390 305,380 C 290,395 270,380 280,365 L 80,85 C 65,100 45,85 60,70 Z" />
+        <!-- Riesenknochen Oben-Rechts nach Unten-Links -->
+        <path d="M 340,70 C 355,55 340,35 325,45 C 310,30 290,45 300,60 L 100,340 C 85,325 65,340 75,355 C 60,370 80,390 95,380 C 110,395 130,380 120,365 L 320,85 C 335,100 355,85 340,70 Z" />
+      </g>
+      
+      <!-- Totenschädel Hauptform -->
+      <path d="M 130,170 C 130,105 160,85 200,85 C 240,85 270,105 270,170 C 270,205 255,215 250,235 L 150,235 C 145,215 130,205 130,170 Z" fill="#0A0814" stroke="#D8B4FE" stroke-width="8"/>
+      
+      <!-- Augenhöhlen -->
+      <ellipse cx="170" cy="165" rx="16" ry="20" fill="#D8B4FE" />
+      <ellipse cx="230" cy="165" rx="16" ry="20" fill="#D8B4FE" />
+      
+      <!-- Nasenhöhle -->
+      <polygon points="200,185 192,205 208,205" fill="#D8B4FE"/>
+      
+      <!-- Zähne / Breites Grinsen -->
+      <rect x="165" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
+      <rect x="181" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
+      <rect x="197" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
+      <rect x="213" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
+      <rect x="229" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
+
+      <!-- DER LEGENDÄRE WEISSE HALBMOND-SCHNURRBART (Schwung nach oben) -->
+      <path d="M 40,165 C 110,265 190,260 200,240 C 210,260 290,265 360,165 C 285,225 215,210 200,215 C 185,210 115,225 40,165 Z" 
+            fill="#FFFFFF" stroke="#E9D5FF" stroke-width="4" filter="drop-shadow(0 0 10px rgba(255,255,255,0.7))"/>
     </svg>
   </div>
 
-  <div class="w-full max-w-md min-h-screen flex flex-col relative z-10 px-4 py-5 pb-32">
+  <!-- HAUPT-CONTAINER -->
+  <div class="w-full max-w-md min-h-screen flex flex-col relative z-10 px-4 py-5 pb-36">
 
-    <!-- Header -->
+    <!-- Top-Bar: Datum, Ära-Tag & Actions -->
     <header class="flex justify-between items-center mb-4">
       <div>
-        <p class="text-xs uppercase tracking-widest text-purple-300 font-semibold" id="currentDateStr">LÄDT...</p>
-        <p class="text-[11px] text-zinc-400" id="cycleStatusStr">ZYKLUS: TAG 1 VON 3</p>
+        <div class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-purple-500 animate-ping"></span>
+          <p class="text-[11px] uppercase tracking-widest text-purple-300 font-extrabold" id="currentDateStr">LÄDT...</p>
+        </div>
+        <p class="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold mt-0.5" id="cycleStatusStr">TAG 1 VON 3 • NEWGATE ÄRA</p>
       </div>
       <div class="flex items-center gap-2">
-        <button onclick="requestNotificationAccess()" class="p-2.5 rounded-full bg-brand-surface border border-brand-border text-purple-300 hover:text-white transition active:scale-95" title="Erinnerungen">
+        <button onclick="requestNotificationAccess()" class="p-2.5 rounded-full bg-brand-obsidian border border-brand-border text-purple-300 hover:text-white transition active:scale-95 shadow-md" title="Erinnerungen">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
         </button>
-        <button onclick="openSettingsModal()" class="p-2.5 rounded-full bg-brand-surface border border-brand-border text-purple-300 hover:text-white transition active:scale-95" title="Einstellungen">
+        <button onclick="openSettingsModal()" class="p-2.5 rounded-full bg-brand-obsidian border border-brand-border text-purple-300 hover:text-white transition active:scale-95 shadow-md" title="Einstellungen">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         </button>
       </div>
     </header>
 
-    <!-- Hero-Split -->
-    <section class="my-2 select-none" id="swipeArea">
+    <!-- Monumentaler Hero Split Titel mit Haki-Aura -->
+    <section class="my-2 select-none relative" id="swipeArea">
       <div class="flex items-center justify-between">
         <button onclick="shiftCycle(-1)" class="p-2 text-zinc-500 hover:text-purple-300 transition active:scale-90">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
         </button>
         <div class="text-center flex-1">
-          <h1 id="heroSplitTitle" class="text-3xl font-black tracking-tight text-white drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+          <h1 id="heroSplitTitle" class="text-3xl font-black tracking-tight text-white drop-shadow-[0_0_20px_rgba(168,85,247,0.7)]">
             UNTERKÖRPER
           </h1>
-          <p id="heroSplitSubtitle" class="text-xs uppercase tracking-widest text-purple-300 font-semibold mt-1">
-            BEINE & WADEN
-          </p>
+          <div class="flex items-center justify-center gap-2 mt-1">
+            <span class="h-[1px] w-6 bg-purple-500/50"></span>
+            <p id="heroSplitSubtitle" class="text-xs uppercase tracking-widest text-purple-300 font-extrabold">
+              BEINE & WADEN
+            </p>
+            <span class="h-[1px] w-6 bg-purple-500/50"></span>
+          </div>
         </div>
         <button onclick="shiftCycle(1)" class="p-2 text-zinc-500 hover:text-purple-300 transition active:scale-90">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
         </button>
       </div>
     </section>
 
-    <!-- Morgen-Gewicht -->
-    <section class="bg-brand-surface border border-brand-border rounded-2xl p-4 my-3 shadow-lg">
-      <div class="flex justify-between items-center mb-2">
-        <span class="text-xs uppercase font-bold tracking-wider text-purple-300">⚖️ Morgen-Gewicht</span>
-        <span id="sevenDayAvgBadge" class="text-[11px] px-2 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-brand-darkPurple font-medium">
+    <!-- Morgen-Gewicht Check -->
+    <section class="obsidian-card rounded-2xl p-4 my-3">
+      <div class="flex justify-between items-center mb-2.5">
+        <div class="flex items-center gap-1.5">
+          <span class="text-sm">⚖️</span>
+          <span class="text-xs uppercase font-extrabold tracking-wider text-purple-200">Morgen-Gewicht</span>
+        </div>
+        <span id="sevenDayAvgBadge" class="text-[11px] px-2.5 py-0.5 rounded-full bg-purple-950/80 text-purple-300 border border-purple-800 font-bold">
           Ø 7 Tage: -- kg
         </span>
       </div>
       <div class="flex items-center gap-3">
-        <input type="number" step="0.01" id="morningWeightInput" placeholder="z. B. 69.4" 
-               class="flex-1 bg-black/60 border border-brand-border rounded-xl px-3 py-2 text-lg font-bold text-white focus:outline-none focus:border-brand-purple">
-        <button onclick="saveMorningWeight()" class="px-4 py-2 bg-brand-purple hover:bg-brand-lightPurple text-black font-extrabold rounded-xl transition active:scale-95 text-sm">
-          Speichern
+        <div class="relative flex-1">
+          <input type="number" step="0.05" id="morningWeightInput" placeholder="z. B. 69.45" 
+                 class="w-full bg-black/70 border border-brand-border rounded-xl px-3.5 py-2.5 text-lg font-black text-white focus:outline-none focus:border-brand-purple">
+          <span class="absolute right-3 top-3 text-xs text-zinc-500 font-bold">KG</span>
+        </div>
+        <button onclick="saveMorningWeight()" class="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white font-black rounded-xl transition active:scale-95 text-xs shadow-lg shadow-purple-900/40">
+          EINTRAGEN
         </button>
       </div>
     </section>
 
-    <!-- Fortschritt -->
-    <section id="workoutProgressSection" class="bg-brand-surface border border-brand-border rounded-2xl p-4 my-2 shadow-lg">
+    <!-- Seismische Gura-Gura Skala (Tonnage & Fortschritt) -->
+    <section id="workoutProgressSection" class="obsidian-card rounded-2xl p-4 my-2">
       <div class="flex justify-between items-center text-xs mb-2">
-        <span class="text-zinc-400 font-medium" id="progressCountStr">0 von 5 absolviert</span>
-        <span class="text-purple-300 font-bold" id="tonnageDisplay">0 kg Tonnage</span>
+        <span class="text-zinc-300 font-bold" id="progressCountStr">0 von 5 absolviert</span>
+        <div class="text-right">
+          <span class="text-purple-300 font-black tracking-wide" id="tonnageDisplay">0 kg Tonnage</span>
+          <span class="block text-[9px] uppercase tracking-wider text-purple-400/80 font-semibold" id="seismicLevelStr">STUFE: RUHE VOR DEM STURM</span>
+        </div>
       </div>
-      <div class="w-full bg-black/60 h-2.5 rounded-full overflow-hidden border border-brand-border">
-        <div id="progressBarFill" class="h-full bg-gradient-to-r from-purple-600 to-purple-400 w-0 transition-all duration-300"></div>
+      <!-- Fortschrittsbalken mit Energie-Füllung -->
+      <div class="w-full bg-black/70 h-3 rounded-full overflow-hidden border border-brand-border p-0.5">
+        <div id="progressBarFill" class="h-full bg-gradient-to-r from-purple-700 via-purple-500 to-white w-0 rounded-full transition-all duration-300 shadow-[0_0_12px_rgba(168,85,247,0.8)]"></div>
       </div>
     </section>
 
-    <!-- Übungen -->
+    <!-- Übungsliste (Karten im Obsidian-Look) -->
     <main id="exerciseListContainer" class="flex flex-col gap-3 my-3"></main>
 
-    <!-- Ruhetag -->
+    <!-- Restday Ansicht (Ehrenhalle des Wachstums) -->
     <section id="restdaySection" class="hidden flex flex-col gap-4 my-3">
-      <div class="bg-brand-surface border border-brand-border rounded-2xl p-5 text-center">
+      <div class="obsidian-card rounded-2xl p-5 text-center border-purple-500/40">
         <span class="text-4xl mb-2 block">⚓</span>
-        <h3 class="text-lg font-extrabold text-white">Ruhetag: Die Ära des Wachstums</h3>
-        <p class="text-xs text-zinc-400 mt-1 max-w-xs mx-auto">
-          Muskeln wachsen in den Ruhephasen. Gönn deinem Körper heute die Regeneration.
+        <h3 class="text-lg font-black text-white tracking-wide">RUHETAG: DIE ÄRA DES WACHSTUMS</h3>
+        <p class="text-xs text-zinc-300 mt-2 max-w-xs mx-auto leading-relaxed">
+          "Wer Großes vollbringen will, muss seinem Körper Zeit geben, die Erschütterungen zu verarbeiten."
         </p>
+      </div>
+
+      <!-- Foto Zeitraffer Box -->
+      <div class="obsidian-card rounded-2xl p-4">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs uppercase font-extrabold tracking-wider text-purple-300">📸 Form-Zeitraffer</span>
+          <button onclick="playTimelapse()" class="text-xs px-3 py-1 bg-purple-950 border border-purple-600 rounded-lg text-purple-200 font-bold active:scale-95">
+            ▶ Abspielen
+          </button>
+        </div>
+        <div id="photoPreviewBox" class="w-full h-48 bg-black/70 rounded-xl border border-dashed border-brand-border flex flex-col items-center justify-center overflow-hidden relative">
+          <img id="activePhotoImg" class="w-full h-full object-cover hidden" alt="Form Check">
+          <p id="noPhotoText" class="text-xs text-zinc-500">Heutigen Fortschritt festhalten</p>
+        </div>
+        <label class="mt-3 block text-center py-2.5 bg-black/60 border border-brand-border rounded-xl text-xs font-bold text-purple-300 hover:text-white cursor-pointer active:scale-95 transition">
+          Foto aufnehmen / auswählen
+          <input type="file" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+        </label>
+      </div>
+    </section>
+
+    <!-- X/Y Progression Kurven -->
+    <section class="obsidian-card rounded-2xl p-4 my-3 shadow-lg">
+      <h3 class="text-xs uppercase font-black tracking-wider text-purple-300 mb-3 flex items-center gap-1.5">
+        <span>📈</span> Kraft & Körper-Verlauf
+      </h3>
+      
+      <div class="mb-4">
+        <p class="text-[11px] text-zinc-400 font-semibold mb-1.5">Körpergewicht (7-Tage-Trend)</p>
+        <div class="h-28 w-full bg-black/70 rounded-xl p-2 border border-brand-border flex items-end" id="weightChartContainer"></div>
+      </div>
+
+      <div>
+        <div class="flex justify-between items-center mb-1.5">
+          <p class="text-[11px] text-zinc-400 font-semibold">Kraftkurve</p>
+          <select id="exerciseChartSelect" onchange="renderExerciseChart()" class="bg-black text-[11px] text-purple-300 border border-brand-border rounded-lg px-2 py-0.5 focus:outline-none"></select>
+        </div>
+        <div class="h-28 w-full bg-black/70 rounded-xl p-2 border border-brand-border flex items-end" id="exerciseChartContainer"></div>
       </div>
     </section>
 
   </div>
 
-  <!-- Timer HUD -->
-  <div id="timerBar" class="fixed bottom-4 left-4 right-4 max-w-md mx-auto bg-brand-surface/95 border border-purple-500 rounded-2xl p-3 shadow-2xl flex items-center justify-between z-40 transition-all duration-300 translate-y-32">
+  <!-- Satzpausen-Timer HUD -->
+  <div id="timerBar" class="fixed bottom-4 left-4 right-4 max-w-md mx-auto bg-brand-obsidian/95 border border-purple-500 rounded-2xl p-3 shadow-[0_10px_30px_rgba(0,0,0,0.8)] flex items-center justify-between z-40 transition-all duration-300 translate-y-36">
     <div class="flex items-center gap-3">
-      <span class="text-xl">⏱️</span>
+      <span class="text-2xl">⏱️</span>
       <div>
-        <p class="text-[10px] text-zinc-400 font-semibold uppercase">Satzpause</p>
-        <p id="timerCountdownText" class="text-lg font-black text-white">01:30</p>
+        <p class="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">Satzpause</p>
+        <p id="timerCountdownText" class="text-xl font-black text-white tracking-wider">01:30</p>
       </div>
     </div>
     <div class="flex items-center gap-2">
-      <button onclick="addTimerSeconds(30)" class="px-2.5 py-1.5 bg-black border border-brand-border rounded-lg text-xs font-bold text-purple-300 active:scale-95">+30s</button>
-      <button onclick="stopTimer()" class="px-3 py-1.5 bg-red-950/80 border border-red-700 text-red-200 rounded-lg text-xs font-bold active:scale-95">Stop</button>
+      <button onclick="addTimerSeconds(30)" class="px-3 py-1.5 bg-black border border-brand-border rounded-xl text-xs font-black text-purple-300 active:scale-95">+30s</button>
+      <button onclick="stopTimer()" class="px-3.5 py-1.5 bg-red-950/80 border border-red-700 text-red-200 rounded-xl text-xs font-black active:scale-95">Stop</button>
     </div>
   </div>
 
-  <!-- Sieges-Modal -->
-  <div id="victoryModal" class="fixed inset-0 bg-black/85 flex items-center justify-center p-4 z-50 hidden">
-    <div class="victory-box w-full max-w-sm bg-brand-surface border-2 border-purple-500 rounded-3xl p-6 text-center shadow-2xl">
-      <div class="text-5xl mb-2">☠️</div>
-      <h2 class="text-2xl font-black text-white tracking-wide">TRAINING BEENDET!</h2>
-      <p class="text-xs uppercase tracking-widest text-purple-400 font-bold mt-1">GURARARARA!</p>
+  <!-- SIEGES-MODAL: DER MANN, DER IM STEHEN STARB -->
+  <div id="victoryModal" class="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50 hidden">
+    <div class="haki-box w-full max-w-sm bg-brand-obsidian border-2 border-purple-500 rounded-3xl p-6 text-center shadow-2xl relative overflow-hidden">
       
-      <div class="my-4 p-3 bg-black/60 rounded-2xl border border-brand-border text-left">
-        <p class="text-xs text-zinc-300 font-semibold" id="victoryStatsTonnage">Bewegte Last: 0 kg</p>
-        <p class="text-xs text-zinc-400" id="victoryStatsExercises">Alle Übungen absolviert!</p>
+      <!-- Hintergrund Schockwellen-Riss im Fenster -->
+      <div class="text-5xl mb-2 drop-shadow-[0_0_15px_rgba(168,85,247,0.8)]">☠️</div>
+      <h2 class="text-2xl font-black text-white tracking-wide">TRAINING VOLLENDET!</h2>
+      <p class="text-[11px] uppercase tracking-widest text-purple-300 font-black mt-0.5">DER MANN, DER IM STEHEN STARB</p>
+      
+      <div class="my-4 p-3.5 bg-black/80 rounded-2xl border border-brand-border text-left">
+        <p class="text-xs text-purple-200 font-extrabold" id="victoryStatsTonnage">Bewegte Gesamtlast: 0 kg</p>
+        <p class="text-xs text-zinc-400 mt-1" id="victoryStatsExercises">Alle 5 Übungen bezwungen!</p>
       </div>
 
-      <p class="text-xs italic text-zinc-300 my-4" id="victoryQuoteText">
-        "Ein wahrer Mann weicht niemals zurück!"
+      <p class="text-xs italic text-zinc-300 my-4 leading-relaxed" id="victoryQuoteText">
+        "Selbst im Moment des Todes wich sein Körper keinen einzigen Schritt zurück. Gurararara!"
       </p>
 
-      <button onclick="closeVictoryModal()" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-extrabold rounded-xl transition active:scale-95">
-        STARK GEMACHT
+      <button onclick="closeVictoryModal()" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white font-black rounded-xl transition active:scale-95 shadow-lg shadow-purple-950 text-xs tracking-wider">
+        EHRE ERWIESEN
       </button>
     </div>
   </div>
 
-  <!-- Benachrichtigungs-Modal -->
-  <div id="notificationModal" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 hidden">
-    <div class="w-full max-w-sm bg-brand-surface border border-brand-border rounded-3xl p-5 shadow-2xl">
+  <!-- Benachrichtigungen Modal -->
+  <div id="notificationModal" class="fixed inset-0 bg-black/85 flex items-center justify-center p-4 z-50 hidden">
+    <div class="w-full max-w-sm obsidian-card rounded-3xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-3">
-        <h3 class="text-sm uppercase font-bold text-white">🔔 Erinnerungen</h3>
-        <button onclick="closeNotificationModal()" class="text-zinc-500 hover:text-white">✕</button>
+        <h3 class="text-xs uppercase font-black text-white tracking-wider flex items-center gap-1.5">
+          <span>🔔</span> Erinnerungen
+        </h3>
+        <button onclick="closeNotificationModal()" class="text-zinc-500 hover:text-white p-1 font-bold">✕</button>
       </div>
-      <p id="notifStatusText" class="text-xs text-zinc-400 mb-3">Status wird geladen...</p>
-      <div class="space-y-2">
-        <button onclick="enablePushNotifications()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl text-xs">
-          Erinnerungen auf Handy aktivieren
+      <p id="notifStatusText" class="text-xs text-zinc-400 mb-4">Status wird geladen...</p>
+      <div class="space-y-2.5">
+        <button onclick="enablePushNotifications()" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-xl text-xs tracking-wide">
+          Erinnerungen auf Handy scharfschalten
         </button>
-        <button onclick="sendTestNotification()" class="w-full py-2 bg-black border border-brand-border text-purple-300 rounded-xl text-xs font-semibold">
+        <button onclick="sendTestNotification()" class="w-full py-2.5 bg-black border border-brand-border text-purple-300 font-bold rounded-xl text-xs">
           Test-Mitteilung sofort senden 📲
         </button>
       </div>
@@ -210,24 +323,31 @@
   </div>
 
   <!-- Einstellungen Modal -->
-  <div id="settingsModal" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 hidden">
-    <div class="w-full max-w-sm bg-brand-surface border border-brand-border rounded-3xl p-5 shadow-2xl">
+  <div id="settingsModal" class="fixed inset-0 bg-black/85 flex items-center justify-center p-4 z-50 hidden">
+    <div class="w-full max-w-sm obsidian-card rounded-3xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-sm uppercase font-bold text-white">⚙️ Einstellungen</h3>
-        <button onclick="closeSettingsModal()" class="text-zinc-500 hover:text-white">✕</button>
+        <h3 class="text-xs uppercase font-black text-white tracking-wider">⚙️ Datensicherung</h3>
+        <button onclick="closeSettingsModal()" class="text-zinc-500 hover:text-white p-1 font-bold">✕</button>
       </div>
-      <button onclick="exportDataToFile()" class="w-full py-2.5 bg-black border border-brand-border rounded-xl text-xs font-semibold text-purple-300 hover:text-white text-left px-4 mb-2 flex items-center justify-between">
-        <span>Daten sichern (.json)</span>
+      <button onclick="exportDataToFile()" class="w-full py-3 bg-black border border-brand-border rounded-xl text-xs font-bold text-purple-300 hover:text-white text-left px-4 mb-2 flex items-center justify-between">
+        <span>Backup als Datei sichern (.json)</span>
         <span>⬇</span>
       </button>
+      <label class="w-full py-3 bg-black border border-brand-border rounded-xl text-xs font-bold text-purple-300 hover:text-white px-4 flex items-center justify-between cursor-pointer">
+        <span>Backup einspielen (.json)</span>
+        <span>⬆</span>
+        <input type="file" accept=".json" class="hidden" onchange="importDataFromFile(event)">
+      </label>
     </div>
   </div>
 
   <script>
+    // --- 1. DATEN-STRUKTUR & STANDARD-ÜBUNGEN ---
     const DEFAULT_DATA = {
       cycleIndex: 0,
       weights: {},
       records: {},
+      photos: {},
       exercises: {
         uk: [
           { name: "eGym Beinpresse", s1_reps: 12, s1_kg: 140, s2_reps: 12, s2_kg: 140, done: false },
@@ -262,11 +382,13 @@
       calculateCycle();
       renderCurrentSplit();
       initMorningWeight();
+      renderCharts();
+      setupSwipe();
       autoAskNotification();
     }
 
     function renderDate() {
-      const options = { weekday: 'long', day: '2-digit', month: 'short' };
+      const options = { weekday: 'short', day: '2-digit', month: 'short' };
       document.getElementById('currentDateStr').innerText = new Date().toLocaleDateString('de-DE', options).toUpperCase();
     }
 
@@ -295,7 +417,7 @@
       if (appData.cycleIndex === 0) {
         title.innerText = "UNTERKÖRPER";
         subtitle.innerText = "BEINE & WADEN";
-        cycleStatus.innerText = "ZYKLUS: TAG 1 VON 3";
+        cycleStatus.innerText = "TAG 1 VON 3 • NEWGATE ÄRA";
         exContainer.classList.remove('hidden');
         progSection.classList.remove('hidden');
         restSection.classList.add('hidden');
@@ -303,18 +425,19 @@
       } else if (appData.cycleIndex === 1) {
         title.innerText = "OBERKÖRPER";
         subtitle.innerText = "BRUST, RÜCKEN & ARME";
-        cycleStatus.innerText = "ZYKLUS: TAG 2 VON 3";
+        cycleStatus.innerText = "TAG 2 VON 3 • NEWGATE ÄRA";
         exContainer.classList.remove('hidden');
         progSection.classList.remove('hidden');
         restSection.classList.add('hidden');
         renderExercises('ok');
       } else {
         title.innerText = "RESTDAY";
-        subtitle.innerText = "DIE ÄRA DES WACHSTUMS";
-        cycleStatus.innerText = "ZYKLUS: TAG 3 VON 3";
+        subtitle.innerText = "ÄRA DES WACHSTUMS";
+        cycleStatus.innerText = "TAG 3 VON 3 • REGENERATION";
         exContainer.classList.add('hidden');
         progSection.classList.add('hidden');
         restSection.classList.remove('hidden');
+        loadRestdayPhoto();
       }
       updateProgress();
     }
@@ -327,49 +450,55 @@
       list.forEach((ex, idx) => {
         const card = document.createElement('div');
         card.id = `card_${splitKey}_${idx}`;
-        card.className = `bg-brand-surface border ${ex.done ? 'border-purple-800/80 bg-purple-950/25' : 'border-brand-border'} rounded-2xl p-4 transition-all duration-200`;
+        const isDone = ex.done;
+        card.className = `obsidian-card rounded-2xl p-4 transition-all duration-200 ${isDone ? 'border-purple-600/70 bg-purple-950/20' : ''}`;
+
+        const isRecord = (ex.s1_kg > (appData.records[ex.name] || 0) || ex.s2_kg > (appData.records[ex.name] || 0));
 
         card.innerHTML = `
           <div class="flex items-center justify-between cursor-pointer" onclick="toggleDetails('${splitKey}', ${idx})">
             <div class="flex items-center gap-3">
               <button onclick="event.stopPropagation(); toggleExerciseCheck('${splitKey}', ${idx})" 
-                      class="w-7 h-7 rounded-lg border flex items-center justify-center text-xs font-bold transition ${ex.done ? 'bg-purple-600 border-purple-400 text-white' : 'border-brand-border text-transparent'}">
+                      class="w-7 h-7 rounded-lg border flex items-center justify-center text-xs font-black transition-all ${isDone ? 'bg-purple-600 border-purple-300 text-white shadow-[0_0_10px_rgba(168,85,247,0.8)]' : 'border-brand-border text-transparent'}">
                 ✓
               </button>
               <div>
-                <h4 class="text-sm font-bold ${ex.done ? 'text-zinc-400 line-through' : 'text-white'}">${ex.name}</h4>
-                <p class="text-[11px] text-zinc-400">${ex.s1_reps}×${ex.s1_kg}kg • ${ex.s2_reps}×${ex.s2_kg}kg</p>
+                <h4 class="text-sm font-extrabold ${isDone ? 'text-zinc-400 line-through' : 'text-white'}">${ex.name}</h4>
+                <p class="text-[11px] text-zinc-400 font-medium">${ex.s1_reps}×${ex.s1_kg}kg • ${ex.s2_reps}×${ex.s2_kg}kg</p>
               </div>
             </div>
-            <span class="text-zinc-500 text-xs" id="chevron_${splitKey}_${idx}">▼</span>
+            <div class="flex items-center gap-2">
+              ${isRecord ? '<span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-purple-900 border border-purple-400 text-purple-200">👑 HAKI-MAX</span>' : ''}
+              <span class="text-zinc-500 text-xs" id="chevron_${splitKey}_${idx}">▼</span>
+            </div>
           </div>
 
           <div id="details_${splitKey}_${idx}" class="hidden pt-4 mt-3 border-t border-brand-border/60">
             <div class="grid grid-cols-2 gap-3 text-xs mb-3">
-              <div class="bg-black/50 p-2.5 rounded-xl border border-brand-border">
-                <span class="font-bold text-purple-300 block mb-1">SATZ 1</span>
-                <div class="flex items-center justify-between mb-1">
+              <div class="bg-black/60 p-2.5 rounded-xl border border-brand-border">
+                <span class="font-extrabold text-purple-300 block mb-1">SATZ 1</span>
+                <div class="flex items-center justify-between mb-1.5">
                   <span class="text-zinc-400">Wdh:</span>
-                  <input type="number" value="${ex.s1_reps}" id="s1_reps_${splitKey}_${idx}" class="w-14 bg-black border border-brand-border rounded text-center text-white py-0.5">
+                  <input type="number" value="${ex.s1_reps}" id="s1_reps_${splitKey}_${idx}" class="w-14 bg-black border border-brand-border rounded text-center text-white py-0.5 font-bold">
                 </div>
                 <div class="flex items-center justify-between">
                   <span class="text-zinc-400">kg:</span>
-                  <input type="number" step="0.5" value="${ex.s1_kg}" id="s1_kg_${splitKey}_${idx}" class="w-14 bg-black border border-brand-border rounded text-center text-white py-0.5 font-bold">
+                  <input type="number" step="0.5" value="${ex.s1_kg}" id="s1_kg_${splitKey}_${idx}" class="w-14 bg-black border border-brand-border rounded text-center text-white py-0.5 font-black text-purple-200">
                 </div>
               </div>
-              <div class="bg-black/50 p-2.5 rounded-xl border border-brand-border">
-                <span class="font-bold text-purple-300 block mb-1">SATZ 2</span>
-                <div class="flex items-center justify-between mb-1">
+              <div class="bg-black/60 p-2.5 rounded-xl border border-brand-border">
+                <span class="font-extrabold text-purple-300 block mb-1">SATZ 2</span>
+                <div class="flex items-center justify-between mb-1.5">
                   <span class="text-zinc-400">Wdh:</span>
-                  <input type="number" value="${ex.s2_reps}" id="s2_reps_${splitKey}_${idx}" class="w-14 bg-black border border-brand-border rounded text-center text-white py-0.5">
+                  <input type="number" value="${ex.s2_reps}" id="s2_reps_${splitKey}_${idx}" class="w-14 bg-black border border-brand-border rounded text-center text-white py-0.5 font-bold">
                 </div>
                 <div class="flex items-center justify-between">
                   <span class="text-zinc-400">kg:</span>
-                  <input type="number" step="0.5" value="${ex.s2_kg}" id="s2_kg_${splitKey}_${idx}" class="w-14 bg-black border border-brand-border rounded text-center text-white py-0.5 font-bold">
+                  <input type="number" step="0.5" value="${ex.s2_kg}" id="s2_kg_${splitKey}_${idx}" class="w-14 bg-black border border-brand-border rounded text-center text-white py-0.5 font-black text-purple-200">
                 </div>
               </div>
             </div>
-            <button onclick="saveExerciseDetails('${splitKey}', ${idx})" class="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition active:scale-95">
+            <button onclick="saveExerciseDetails('${splitKey}', ${idx})" class="w-full py-2.5 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white rounded-xl text-xs font-black transition active:scale-95 shadow-md">
               Übernehmen & Pause starten
             </button>
           </div>
@@ -396,11 +525,26 @@
 
     function saveExerciseDetails(splitKey, idx) {
       const ex = appData.exercises[splitKey][idx];
-      ex.s1_reps = parseInt(document.getElementById(`s1_reps_${splitKey}_${idx}`).value) || 0;
-      ex.s1_kg = parseFloat(document.getElementById(`s1_kg_${splitKey}_${idx}`).value) || 0;
-      ex.s2_reps = parseInt(document.getElementById(`s2_reps_${splitKey}_${idx}`).value) || 0;
-      ex.s2_kg = parseFloat(document.getElementById(`s2_kg_${splitKey}_${idx}`).value) || 0;
+      const r1 = parseInt(document.getElementById(`s1_reps_${splitKey}_${idx}`).value) || 0;
+      const k1 = parseFloat(document.getElementById(`s1_kg_${splitKey}_${idx}`).value) || 0;
+      const r2 = parseInt(document.getElementById(`s2_reps_${splitKey}_${idx}`).value) || 0;
+      const k2 = parseFloat(document.getElementById(`s2_kg_${splitKey}_${idx}`).value) || 0;
+
+      const previousRecord = appData.records[ex.name] || 0;
+      const currentMax = Math.max(k1, k2);
+
+      ex.s1_reps = r1; ex.s1_kg = k1;
+      ex.s2_reps = r2; ex.s2_kg = k2;
       ex.done = true;
+
+      if (currentMax > previousRecord) {
+        appData.records[ex.name] = currentMax;
+        const card = document.getElementById(`card_${splitKey}_${idx}`);
+        if (card) {
+          card.classList.add('pr-flash');
+          setTimeout(() => card.classList.remove('pr-flash'), 700);
+        }
+      }
 
       saveAppData();
       renderCurrentSplit();
@@ -424,6 +568,13 @@
         if (e.done) tonnage += (e.s1_reps * e.s1_kg) + (e.s2_reps * e.s2_kg);
       });
       document.getElementById('tonnageDisplay').innerText = `${tonnage.toLocaleString('de-DE')} kg Tonnage`;
+
+      // Seismische Beben-Stufe
+      const levelEl = document.getElementById('seismicLevelStr');
+      if (tonnage === 0) levelEl.innerText = "STUFE: RUHE VOR DEM STURM";
+      else if (tonnage < 3000) levelEl.innerText = "STUFE: BODENBEBEN";
+      else if (tonnage < 7000) levelEl.innerText = "STUFE: GURA-GURA SCHOCKWELLE";
+      else levelEl.innerText = "STUFE: KONTINENT-SPALTER 💥";
     }
 
     function checkAllCompleted(splitKey) {
@@ -435,7 +586,7 @@
     }
 
     function triggerVictoryScreen(splitKey) {
-      playSubtleGuraSound();
+      playDeepGuraSound();
 
       let tonnage = 0;
       appData.exercises[splitKey].forEach(e => {
@@ -443,12 +594,12 @@
       });
 
       document.getElementById('victoryStatsTonnage').innerText = `Bewegte Gesamtlast: ${tonnage.toLocaleString('de-DE')} kg`;
-      document.getElementById('victoryStatsExercises').innerText = `Alle ${appData.exercises[splitKey].length} Übungen erledigt!`;
+      document.getElementById('victoryStatsExercises').innerText = `Alle ${appData.exercises[splitKey].length} Übungen bezwungen!`;
 
       const quotes = [
-        "\"Die Ära des Wachstums hat begonnen. Gurarara!\"",
-        "\"Wahre Stärke weicht dem Eisen niemals aus!\"",
-        "\"Hervorragende Arbeit. Dein Körper wird stärker!\""
+        "\"Selbst im Moment des Todes wich sein gewaltiger Körper keinen einzigen Schritt zurück. Gurarara!\"",
+        "\"Vergiss niemals: Nicht der Sieg zählt, sondern dass du für deine Familie und dein Ziel standhaft bleibst!\"",
+        "\"Die Ära des Wachstums gehört jenen, die das Eisen nicht fürchten!\""
       ];
       document.getElementById('victoryQuoteText').innerText = quotes[Math.floor(Math.random() * quotes.length)];
       document.getElementById('victoryModal').classList.remove('hidden');
@@ -458,40 +609,41 @@
       document.getElementById('victoryModal').classList.add('hidden');
     }
 
-    function playSubtleGuraSound() {
+    // Tiefer Gura-Gura Bass-Sound ohne Verzögerung
+    function playDeepGuraSound() {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
         if (ctx.state === 'suspended') ctx.resume();
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(100, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(35, ctx.currentTime + 0.6);
-        gain.gain.setValueAtTime(0.5, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(120, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(32, ctx.currentTime + 0.7);
+        gain.gain.setValueAtTime(0.6, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.7);
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start();
-        osc.stop(ctx.currentTime + 0.6);
+        osc.stop(ctx.currentTime + 0.7);
       } catch (e) {
         console.warn("Audio blocked");
       }
     }
 
-    // Timer Fix (ID-Abgleich)
+    // Timer Logik
     let timerInterval = null;
     let timerRemaining = 0;
 
     function startTimer(seconds) {
       clearInterval(timerInterval);
       timerRemaining = seconds;
-      document.getElementById('timerBar').classList.remove('translate-y-32');
+      document.getElementById('timerBar').classList.remove('translate-y-36');
       updateTimerDisplay();
       timerInterval = setInterval(() => {
         timerRemaining--;
         if (timerRemaining <= 0) {
           clearInterval(timerInterval);
-          playSubtleGuraSound();
+          playDeepGuraSound();
           stopTimer();
         } else {
           updateTimerDisplay();
@@ -514,17 +666,13 @@
 
     function stopTimer() {
       clearInterval(timerInterval);
-      document.getElementById('timerBar').classList.add('translate-y-32');
+      document.getElementById('timerBar').classList.add('translate-y-36');
     }
 
+    // Morgen-Gewicht & Wochendurchschnitt
     function initMorningWeight() {
       document.getElementById('morningWeightInput').value = appData.weights[todayStr] || '';
-      const dates = Object.keys(appData.weights).sort();
-      const last7 = dates.slice(-7).map(d => appData.weights[d]);
-      if (last7.length > 0) {
-        const avg = (last7.reduce((a, b) => a + b, 0) / last7.length).toFixed(1);
-        document.getElementById('sevenDayAvgBadge').innerText = `Ø 7 Tage: ${avg} kg`;
-      }
+      calculateSevenDayAverage();
     }
 
     function saveMorningWeight() {
@@ -532,16 +680,144 @@
       if (val && val > 30) {
         appData.weights[todayStr] = val;
         saveAppData();
-        initMorningWeight();
+        calculateSevenDayAverage();
+        renderCharts();
       }
     }
 
-    // Benachrichtigungs-System
+    function calculateSevenDayAverage() {
+      const dates = Object.keys(appData.weights).sort();
+      const last7 = dates.slice(-7).map(d => appData.weights[d]);
+      if (last7.length > 0) {
+        const avg = (last7.reduce((a, b) => a + b, 0) / last7.length).toFixed(2);
+        document.getElementById('sevenDayAvgBadge').innerText = `Ø 7 Tage: ${avg} kg`;
+      }
+    }
+
+    // Progression Graphen
+    function renderCharts() {
+      renderWeightChart();
+      populateExerciseSelect();
+      renderExerciseChart();
+    }
+
+    function renderWeightChart() {
+      const container = document.getElementById('weightChartContainer');
+      const dates = Object.keys(appData.weights).sort().slice(-14);
+      if (dates.length < 2) {
+        container.innerHTML = '<span class="text-zinc-600 text-[10px] m-auto">Mindestens 2 Tage wiegen für Trendlinie</span>';
+        return;
+      }
+
+      const values = dates.map(d => appData.weights[d]);
+      const min = Math.min(...values) - 0.5;
+      const max = Math.max(...values) + 0.5;
+      const range = (max - min) || 1;
+
+      const w = 340; const h = 90;
+      const points = values.map((v, i) => {
+        const x = (i / (values.length - 1)) * (w - 20) + 10;
+        const y = h - ((v - min) / range) * (h - 20) - 10;
+        return `${x},${y}`;
+      }).join(' ');
+
+      container.innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}" class="w-full h-full">
+          <polyline fill="none" stroke="#A855F7" stroke-width="3" stroke-linecap="round" points="${points}" />
+          ${values.map((v, i) => {
+            const [x, y] = points.split(' ')[i].split(',');
+            return `<circle cx="${x}" cy="${y}" r="3.5" fill="#FFFFFF" />`;
+          }).join('')}
+        </svg>
+      `;
+    }
+
+    function populateExerciseSelect() {
+      const sel = document.getElementById('exerciseChartSelect');
+      sel.innerHTML = '';
+      const allEx = [...appData.exercises.uk, ...appData.exercises.ok];
+      allEx.forEach(ex => {
+        const opt = document.createElement('option');
+        opt.value = ex.name;
+        opt.innerText = ex.name;
+        sel.appendChild(opt);
+      });
+    }
+
+    function renderExerciseChart() {
+      const container = document.getElementById('exerciseChartContainer');
+      const selEx = document.getElementById('exerciseChartSelect').value;
+      const record = appData.records[selEx] || 50;
+
+      const values = [record - 5, record - 2.5, record, record];
+      const w = 340; const h = 90;
+      const min = Math.min(...values) - 5;
+      const max = Math.max(...values) + 5;
+      const range = (max - min) || 1;
+
+      const points = values.map((v, i) => {
+        const x = (i / (values.length - 1)) * (w - 20) + 10;
+        const y = h - ((v - min) / range) * (h - 20) - 10;
+        return `${x},${y}`;
+      }).join(' ');
+
+      container.innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}" class="w-full h-full">
+          <polyline fill="none" stroke="#C084FC" stroke-width="3" stroke-linecap="round" points="${points}" />
+          ${values.map((v, i) => {
+            const [x, y] = points.split(' ')[i].split(',');
+            return `<circle cx="${x}" cy="${y}" r="3.5" fill="#A855F7" />`;
+          }).join('')}
+        </svg>
+      `;
+    }
+
+    // Restday Foto & Zeitraffer
+    function handlePhotoUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        appData.photos[todayStr] = evt.target.result;
+        saveAppData();
+        loadRestdayPhoto();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function loadRestdayPhoto() {
+      const img = document.getElementById('activePhotoImg');
+      const text = document.getElementById('noPhotoText');
+      if (appData.photos[todayStr]) {
+        img.src = appData.photos[todayStr];
+        img.classList.remove('hidden');
+        text.classList.add('hidden');
+      } else {
+        img.classList.add('hidden');
+        text.classList.remove('hidden');
+      }
+    }
+
+    function playTimelapse() {
+      const photos = Object.values(appData.photos);
+      if (photos.length === 0) return;
+      const img = document.getElementById('activePhotoImg');
+      const text = document.getElementById('noPhotoText');
+      img.classList.remove('hidden');
+      text.classList.add('hidden');
+
+      let i = 0;
+      const iv = setInterval(() => {
+        img.src = photos[i];
+        i++;
+        if (i >= photos.length) clearInterval(iv);
+      }, 400);
+    }
+
+    // Mitteilungen
     function autoAskNotification() {
       if ("Notification" in window && Notification.permission === "default") {
-        setTimeout(() => {
-          Notification.requestPermission();
-        }, 1500);
+        setTimeout(() => { Notification.requestPermission(); }, 1500);
       }
     }
 
@@ -559,7 +835,7 @@
       if (Notification.permission === "granted") {
         statusEl.innerText = "✅ Mitteilungen sind aktiv (06:30 & 12:00 Uhr).";
       } else if (Notification.permission === "denied") {
-        statusEl.innerText = "❌ Mitteilungen wurden in den Android-Einstellungen blockiert.";
+        statusEl.innerText = "❌ In den Android-Einstellungen blockiert.";
       } else {
         statusEl.innerText = "⚠️ Berechtigung noch nicht erteilt.";
       }
@@ -567,25 +843,23 @@
 
     function enablePushNotifications() {
       if ("Notification" in window) {
-        Notification.requestPermission().then(permission => {
+        Notification.requestPermission().then(p => {
           updateNotifStatus();
-          if (permission === "granted") {
-            new Notification("Whitebeards Gym", {
-              body: "Erinnerungen aktiv! Gurarara! ⚔️"
-            });
+          if (p === "granted") {
+            new Notification("Whitebeards Gym", { body: "Erinnerungen aktiv! Gurarara! ⚔️" });
           }
         });
       }
     }
 
     function sendTestNotification() {
-      playSubtleGuraSound();
+      playDeepGuraSound();
       if ("Notification" in window && Notification.permission === "granted") {
         new Notification("Whitebeards Gym", {
           body: "12:00 Uhr Test: Vergiss dein Training nicht! Ein wahrer Mann weicht dem Eisen nicht aus!"
         });
       } else {
-        alert("Bitte zuerst oben auf 'Aktivieren' tippen!");
+        alert("Bitte zuerst auf 'Scharfschalten' tippen!");
       }
     }
 
@@ -599,6 +873,38 @@
       a.href = str;
       a.download = `whitebeard_backup_${todayStr}.json`;
       a.click();
+    }
+
+    function importDataFromFile(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          appData = JSON.parse(evt.target.result);
+          saveAppData();
+          location.reload();
+        } catch(err) {
+          alert("Fehlerhafte Datei!");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function setupSwipe() {
+      let touchStartX = 0;
+      let touchEndX = 0;
+      const area = document.getElementById('swipeArea');
+
+      area.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, false);
+
+      area.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 50) shiftCycle(1);
+        if (touchEndX - touchStartX > 50) shiftCycle(-1);
+      }, false);
     }
 
     window.onload = init;

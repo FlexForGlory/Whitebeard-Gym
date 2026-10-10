@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Whitebeard Gym</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              purple: '#A855F7',
+              lightPurple: '#C084FC',
+              darkPurple: '#581C87',
+              surface: '#0F0E17',
+              card: '#161426',
+              border: '#2A244D'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Absolut stabiles AMOLED Schwarz ohne GPU-Überlastung */
+    body {
+      background-color: #05040A;
+      color: #FFFFFF;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* Sanfte, sichere Sieges-Animation ohne Bildstörung */
+    @keyframes victory-glow {
+      0%, 100% { box-shadow: 0 0 25px rgba(168, 85, 247, 0.4); }
+      50% { box-shadow: 0 0 50px rgba(192, 132, 252, 0.8); }
+    }
+    .victory-box {
+      animation: victory-glow 2.5s infinite ease-in-out;
+    }
+
+    /* Schockwellen-Puls bei PR (nur auf der Karte selbst) */
+    @keyframes pr-pulse {
+      0% { transform: scale(1); border-color: #C084FC; }
+      50% { transform: scale(1.02); border-color: #FFFFFF; box-shadow: 0 0 20px rgba(168, 85, 247, 0.6); }
+      100% { transform: scale(1); border-color: #2A244D; }
+    }
+    .pr-flash {
+      animation: pr-pulse 0.6s ease-out;
+    }
+
+    /* Verstecken von Standard-Scrollbalken */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen relative flex flex-col items-center">
+
+  <!-- Whitebeard Jolly Roger Wasserzeichen im Hintergrund -->
+  <div class="fixed inset-0 pointer-events-none flex items-center justify-center z-0 opacity-10">
+    <svg viewBox="0 0 200 200" class="w-[85vw] max-w-[420px] text-purple-400 fill-current">
+      <!-- Kreuzknochen -->
+      <path d="M 25,25 L 175,175 M 175,25 L 25,175" stroke="currentColor" stroke-width="16" stroke-linecap="round"/>
+      <!-- Totenschädel -->
+      <circle cx="100" cy="95" r="42" fill="#05040A" stroke="currentColor" stroke-width="7"/>
+      <!-- Augen & Nase -->
+      <circle cx="85" cy="90" r="9" fill="currentColor"/>
+      <circle cx="115" cy="90" r="9" fill="currentColor"/>
+      <polygon points="100,102 94,114 106,114" fill="currentColor"/>
+      <!-- Kiefer -->
+      <path d="M 80,122 L 80,138 L 120,138 L 120,122 Z" fill="#05040A" stroke="currentColor" stroke-width="5"/>
+      <!-- Der legendäre weiße Halbmond-Schnurrbart -->
+      <path d="M 20,105 Q 100,150 180,105 Q 100,130 20,105 Z" fill="#FFFFFF"/>
+    </svg>
+  </div>
+
+  <!-- Haupt-Container -->
+  <div class="w-full max-w-md min-h-screen flex flex-col relative z-10 px-4 py-5 pb-32">
+
+    <!-- Top-Leiste: Datum & Einstellungen -->
+    <header class="flex justify-between items-center mb-4">
+      <div>
+        <p class="text-xs uppercase tracking-widest text-purple-300 font-semibold" id="currentDateStr">LÄDT...</p>
+        <p class="text-[11px] text-zinc-400" id="cycleStatusStr">ZYKLUS: TAG 1 VON 3</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="openNotificationModal()" class="p-2.5 rounded-full bg-brand-surface border border-brand-border text-purple-300 hover:text-white transition active:scale-95" title="Erinnerungen">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        </button>
+        <button onclick="openSettingsModal()" class="p-2.5 rounded-full bg-brand-surface border border-brand-border text-purple-300 hover:text-white transition active:scale-95" title="Einstellungen & Backup">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Monumentaler Hero-Titel (Automatisch & mit Wisch-/Pfeil-Option) -->
+    <section class="my-2 select-none" id="swipeArea">
+      <div class="flex items-center justify-between">
+        <button onclick="shiftCycle(-1)" class="p-2 text-zinc-500 hover:text-purple-300 transition active:scale-90">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="text-center flex-1">
+          <h1 id="heroSplitTitle" class="text-3xl font-black tracking-tight text-white drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+            UNTERKÖRPER
+          </h1>
+          <p id="heroSplitSubtitle" class="text-xs uppercase tracking-widest text-purple-300 font-semibold mt-1">
+            BEINE & WADEN
+          </p>
+        </div>
+        <button onclick="shiftCycle(1)" class="p-2 text-zinc-500 hover:text-purple-300 transition active:scale-90">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- Morgen-Gewichts-Check & 7-Tage-Schnitt -->
+    <section class="bg-brand-surface border border-brand-border rounded-2xl p-4 my-3 shadow-lg">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-xs uppercase font-bold tracking-wider text-purple-300">⚖️ Morgen-Gewicht</span>
+        <span id="sevenDayAvgBadge" class="text-[11px] px-2 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-brand-darkPurple font-medium">
+          Ø 7 Tage: -- kg
+        </span>
+      </div>
+      <div class="flex items-center gap-3">
+        <input type="number" step="0.1" id="morningWeightInput" placeholder="z. B. 83.2" 
+               class="flex-1 bg-black/60 border border-brand-border rounded-xl px-3 py-2 text-lg font-bold text-white focus:outline-none focus:border-brand-purple">
+        <button onclick="saveMorningWeight()" class="px-4 py-2 bg-brand-purple hover:bg-brand-lightPurple text-black font-extrabold rounded-xl transition active:scale-95 text-sm">
+          Speichern
+        </button>
+      </div>
+    </section>
+
+    <!-- Gura-Gura Power Tonnage & Fortschrittsbalken -->
+    <section id="workoutProgressSection" class="bg-brand-surface border border-brand-border rounded-2xl p-4 my-2 shadow-lg">
+      <div class="flex justify-between items-center text-xs mb-2">
+        <span class="text-zinc-400 font-medium" id="progressCountStr">0 von 5 absolviert</span>
+        <span class="text-purple-300 font-bold" id="tonnageDisplay">0 kg Tonnage</span>
+      </div>
+      <div class="w-full bg-black/60 h-2.5 rounded-full overflow-hidden border border-brand-border">
+        <div id="progressBarFill" class="h-full bg-gradient-to-r from-purple-600 to-purple-400 w-0 transition-all duration-300"></div>
+      </div>
+    </section>
+
+    <!-- Übungsliste (Dynamisch befüllt) -->
+    <main id="exerciseListContainer" class="flex flex-col gap-3 my-3">
+      <!-- Wird per JavaScript mit UK- oder OK-Karten generiert -->
+    </main>
+
+    <!-- Ruhetag-Ansicht (Wird nur am Restday eingeblendet) -->
+    <section id="restdaySection" class="hidden flex flex-col gap-4 my-3">
+      <div class="bg-brand-surface border border-brand-border rounded-2xl p-5 text-center">
+        <span class="text-4xl mb-2 block">⚓</span>
+        <h3 class="text-lg font-extrabold text-white">Ruhetag: Die Ära des Wachstums</h3>
+        <p class="text-xs text-zinc-400 mt-1 max-w-xs mx-auto">
+          Muskeln wachsen nicht im Gym, sondern wenn du schläfst und isst. Gönn deinem Körper heute die Erholung.
+        </p>
+      </div>
+
+      <!-- Foto-Zeitraffer Speicher -->
+      <div class="bg-brand-surface border border-brand-border rounded-2xl p-4">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs uppercase font-bold tracking-wider text-purple-300">📸 Form-Zeitraffer</span>
+          <button onclick="playTimelapse()" class="text-xs px-2.5 py-1 bg-purple-900/60 border border-purple-600 rounded-lg text-purple-200">
+            ▶ Abspielen
+          </button>
+        </div>
+        <div id="photoPreviewBox" class="w-full h-48 bg-black/60 rounded-xl border border-dashed border-brand-border flex flex-col items-center justify-center overflow-hidden relative">
+          <img id="activePhotoImg" class="w-full h-full object-cover hidden" alt="Form Check">
+          <p id="noPhotoText" class="text-xs text-zinc-500">Noch kein Foto für heute</p>
+        </div>
+        <label class="mt-3 block text-center py-2 bg-brand-surface border border-brand-border rounded-xl text-xs font-semibold text-purple-300 hover:text-white cursor-pointer active:scale-95 transition">
+          Foto aufnehmen / auswählen
+          <input type="file" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+        </label>
+      </div>
+    </section>
+
+    <!-- X/Y Progression Kurven -->
+    <section class="bg-brand-surface border border-brand-border rounded-2xl p-4 my-4 shadow-lg">
+      <h3 class="text-xs uppercase font-bold tracking-wider text-purple-300 mb-3">📈 Kraft & Körper-Verlauf</h3>
+      
+      <!-- Graph 1: Körpergewicht -->
+      <div class="mb-4">
+        <p class="text-[11px] text-zinc-400 mb-1">Gewichtsentwicklung (7-Tage-Trend)</p>
+        <div class="h-28 w-full bg-black/60 rounded-xl p-2 border border-brand-border flex items-end" id="weightChartContainer">
+          <!-- Dynamischer SVG Graph -->
+        </div>
+      </div>
+
+      <!-- Graph 2: Muskel-Übungs-Kraft -->
+      <div>
+        <div class="flex justify-between items-center mb-1">
+          <p class="text-[11px] text-zinc-400">Übungs-Progression</p>
+          <select id="exerciseChartSelect" onchange="renderExerciseChart()" class="bg-black text-[11px] text-purple-300 border border-brand-border rounded px-2 py-0.5 focus:outline-none">
+            <!-- Befüllt per JS -->
+          </select>
+        </div>
+        <div class="h-28 w-full bg-black/60 rounded-xl p-2 border border-brand-border flex items-end" id="exerciseChartContainer">
+          <!-- Dynamischer SVG Graph -->
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Schwebender Satzpausen-Timer HUD -->
+  <div id="timerBar" class="fixed bottom-4 left-4 right-4 max-w-md mx-auto bg-brand-surface/95 border border-purple-500 rounded-2xl p-3 shadow-2xl flex items-center justify-between z-40 transition-all duration-300 translate-y-32">
+    <div class="flex items-center gap-3">
+      <span class="text-xl">⏱️</span>
+      <div>
+        <p class="text-[10px] text-zinc-400 font-semibold uppercase">Satzpause</p>
+        <p id="timerCountdownText" class="text-lg font-black text-white">01:30</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="addTimerSeconds(30)" class="px-2.5 py-1.5 bg-black border border-brand-border rounded-lg text-xs font-bold text-purple-300 active:scale-95">+30s</button>
+      <button onclick="stopTimer()" class="px-3 py-1.5 bg-red-950/80 border border-red-700 text-red-200 rounded-lg text-xs font-bold active:scale-95">Stop</button>
+    </div>
+  </div>
+
+  <!-- Crash-sicheres Whitebeard Sieges-Modal (100% Training fertig) -->
+  <div id="victoryModal" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 hidden">
+    <div class="victory-box w-full max-w-sm bg-brand-surface border-2 border-purple-500 rounded-3xl p-6 text-center shadow-2xl">
+      <div class="text-5xl mb-2">☠️</div>
+      <h2 class="text-2xl font-black text-white tracking-wide">TRAINING BEENDET!</h2>
+      <p class="text-xs uppercase tracking-widest text-purple-400 font-bold mt-1">Die Ära des Wachstums gehört dir!</p>
+      
+      <div class="my-4 p-3 bg-black/60 rounded-2xl border border-brand-border text-left">
+        <p class="text-xs text-zinc-400" id="victoryStatsTonnage">Bewegte Last: 0 kg</p>
+        <p class="text-xs text-zinc-400" id="victoryStatsExercises">Abgeschlossene Übungen: 0/0</p>
+      </div>
+
+      <p class="text-xs italic text-zinc-300 my-4" id="victoryQuoteText">
+        "Ein wahrer Mann weicht niemals zurück. Gurarara!"
+      </p>
+
+      <button onclick="closeVictoryModal()" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-extrabold rounded-xl transition active:scale-95">
+        STARK GEMACHT
+      </button>
+    </div>
+  </div>
+
+  <!-- Einstellungen & Backup Modal -->
+  <div id="settingsModal" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 hidden">
+    <div class="w-full max-w-sm bg-brand-surface border border-brand-border rounded-3xl p-5 shadow-2xl">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-sm uppercase font-bold text-white">⚙️ Daten & Backup</h3>
+        <button onclick="closeSettingsModal()" class="text-zinc-500 hover:text-white">✕</button>
+      </div>
+
+      <div class="flex flex-col gap-2.5">
+        <button onclick="exportDataToFile()" class="w-full py-2.5 bg-black border border-brand-border rounded-xl text-xs font-semibold text-purple-300 hover:text-white text-left px-4 flex items-center justify-between">
+          <span>Daten sichern (.json)</span>
+          <span>⬇</span>
+        </button>
+
+        <label class="w-full py-2.5 bg-black border border-brand-border rounded-xl text-xs font-semibold text-purple-300 hover:text-white px-4 flex items-center justify-between cursor-pointer">
+          <span>Backup einspielen (.json)</span>
+          <span>⬆</span>
+          <input type="file" accept=".json" class="hidden" onchange="importDataFromFile(event)">
+        </label>
+
+        <button onclick="downloadSelfApp()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-extrabold transition text-center mt-2">
+          📥 App-Datei speichern (.html)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Benachrichtigungen Modal -->
+  <div id="notificationModal" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 hidden">
+    <div class="w-full max-w-sm bg-brand-surface border border-brand-border rounded-3xl p-5 shadow-2xl">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="text-sm uppercase font-bold text-white">🔔 Erinnerungen</h3>
+        <button onclick="closeNotificationModal()" class="text-zinc-500 hover:text-white">✕</button>
+      </div>
+      <p class="text-xs text-zinc-400 mb-3">
+        Dein S25 Ultra erinnert dich zuverlässig an Gewicht & Eisen.
+      </p>
+
+      <div class="space-y-3">
+        <div class="flex items-center justify-between bg-black/60 p-3 rounded-xl border border-brand-border">
+          <div>
+            <p class="text-xs font-bold text-white">06:30 Uhr</p>
+            <p class="text-[10px] text-zinc-400">Morgen-Gewicht wiegen</p>
+          </div>
+          <span class="text-xs text-purple-400 font-bold">AKTIV</span>
+        </div>
+
+        <div class="flex items-center justify-between bg-black/60 p-3 rounded-xl border border-brand-border">
+          <div>
+            <p class="text-xs font-bold text-white">12:00 Uhr</p>
+            <p class="text-[10px] text-zinc-400">Vergiss dein Training nicht</p>
+          </div>
+          <span class="text-xs text-purple-400 font-bold">AKTIV</span>
+        </div>
+
+        <button onclick="testNotificationSound()" class="w-full py-2 bg-purple-900/40 border border-purple-600 text-purple-200 rounded-xl text-xs font-bold">
+          Erinnerungs-Ton testen 🔊
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- 1. DATEN-STRUKTUR & STANDARD-ÜBUNGEN ---
+    const DEFAULT_DATA = {
+      cycleIndex: 0, // 0: UK, 1: OK, 2: Rest
+      weights: {},   // 'YYYY-MM-DD': 82.5
+      records: {},   // 'ex_name': maxKg
+      photos: {},    // 'YYYY-MM-DD': dataUrl
+      exercises: {
+        uk: [
+          { name: "eGym Beinpresse", s1_reps: 10, s1_kg: 140, s2_reps: 10, s2_kg: 140, done: false },
+          { name: "eGym Leg Extension", s1_reps: 12, s1_kg: 75, s2_reps: 10, s2_kg: 75, done: false },
+          { name: "Leg Curl", s1_reps: 12, s1_kg: 60, s2_reps: 10, s2_kg: 60, done: false },
+          { name: "Rotary Calf", s1_reps: 15, s1_kg: 80, s2_reps: 15, s2_kg: 80, done: false },
+          { name: "Abduktoren & Adduktoren", s1_reps: 12, s1_kg: 55, s2_reps: 12, s2_kg: 55, done: false }
+        ],
+        ok: [
+          { name: "eGym Latzug", s1_reps: 10, s1_kg: 75, s2_reps: 10, s2_kg: 75, done: false },
+          { name: "eGym Brustpresse", s1_reps: 10, s1_kg: 70, s2_reps: 8, s2_kg: 70, done: false },
+          { name: "eGym Ruderzug", s1_reps: 10, s1_kg: 65, s2_reps: 10, s2_kg: 65, done: false },
+          { name: "eGym Rotator (Bauch)", s1_reps: 15, s1_kg: 40, s2_reps: 15, s2_kg: 40, done: false },
+          { name: "eGym Lower Back", s1_reps: 12, s1_kg: 60, s2_reps: 12, s2_kg: 60, done: false },
+          { name: "eGym Bauch", s1_reps: 15, s1_kg: 45, s2_reps: 15, s2_kg: 45, done: false },
+          { name: "Seitheben", s1_reps: 12, s1_kg: 12, s2_reps: 12, s2_kg: 12, done: false },
+          { name: "Bizeps Curls", s1_reps: 10, s1_kg: 16, s2_reps: 10, s2_kg: 16, done: false },
+          { name: "Trizeps Maschine", s1_reps: 12, s1_kg: 45, s2_reps: 10, s2_kg: 45, done: false }
+        ]
+      }
+    };
+
+    let appData = JSON.parse(localStorage.getItem('wb_gym_data') || 'null') || DEFAULT_DATA;
+
+    function saveAppData() {
+      localStorage.setItem('wb_gym_data', JSON.stringify(appData));
+    }
+
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    // --- 2. INITIALISIERUNG & ZYKLUS ---
+    function init() {
+      renderDate();
+      calculateCycle();
+      renderCurrentSplit();
+      initMorningWeight();
+      renderCharts();
+      setupSwipe();
+    }
+
+    function renderDate() {
+      const options = { weekday: 'long', day: '2-digit', month: 'short' };
+      const str = new Date().toLocaleDateString('de-DE', options).toUpperCase();
+      document.getElementById('currentDateStr').innerText = str;
+    }
+
+    function calculateCycle() {
+      // Automatischer 3-Tage-Loop basierend auf Kalendertagen
+      const epoch = new Date('2026-01-01').getTime();
+      const now = new Date().getTime();
+      const diffDays = Math.floor((now - epoch) / (1000 * 60 * 60 * 24));
+      // Standardmäßig den berechneten Tag nutzen, wenn Nutzer nicht manuell gewechselt hat
+      if (appData.cycleIndex === undefined) {
+        appData.cycleIndex = Math.abs(diffDays % 3);
+      }
+    }
+
+    function shiftCycle(delta) {
+      appData.cycleIndex = (appData.cycleIndex + delta + 3) % 3;
+      saveAppData();
+      renderCurrentSplit();
+    }
+
+    function renderCurrentSplit() {
+      const title = document.getElementById('heroSplitTitle');
+      const subtitle = document.getElementById('heroSplitSubtitle');
+      const cycleStatus = document.getElementById('cycleStatusStr');
+      const exContainer = document.getElementById('exerciseListContainer');
+      const restSection = document.getElementById('restdaySection');
+      const progSection = document.getElementById('workoutProgressSection');
+
+      if (appData.cycleIndex === 0) {
+        title.innerText = "UNTERKÖRPER";
+        subtitle.innerText = "BEINE & WADEN";
+        cycleStatus.innerText = "ZYKLUS: TAG 1 VON 3";
+        exContainer.classList.remove('hidden');
+        progSection.classList.remove('hidden');
+        restSection.classList.add('hidden');
+        renderExercises('uk');
+      } else if (appData.cycleIndex === 1) {
+        title.innerText = "OBERKÖRPER";
+        subtitle.innerText = "BRUST, RÜCKEN & ARME";
+        cycleStatus.innerText = "ZYKLUS: TAG 2 VON 3";
+        exContainer.classList.remove('hidden');
+        progSection.classList.remove('hidden');
+        restSection.classList.add('hidden');
+        renderExercises('ok');
+      } else {
+        title.innerText = "RESTDAY";
+        subtitle.innerText = "DIE ÄRA DES WACHSTUMS";
+        cycleStatus.innerText = "ZYKLUS: TAG 3 VON 3";
+        exContainer.classList.add('hidden');
+        progSection.classList.add('hidden');
+        restSection.classList.remove('hidden');
+        loadRestdayPhoto();
+      }
+      updateProgress();
+    }
+
+    // --- 3. ÜBUNGEN & INTERAKTIVITÄT ---
+    function renderExercises(splitKey) {
+      const container = document.getElementById('exerciseListContainer');
+      container.innerHTML = '';
+      const list = appData.exercises[splitKey];
+
+      list.forEach((ex, idx) => {
+        const card = document.createElement('div');
+        card.id = `card_${splitKey}_${idx}`;
+        card.className = `bg-brand-surface border ${ex.done ? 'border-purple-900/60 bg-purple-950/20' : 'border-brand-border'} rounded-2xl p-4 transition-all duration-200`;
+
+        const isRecord = (ex.s1_kg > (appData.records[ex.name] || 0) || ex.s2_kg > (appData.records[ex.name] || 0));
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between cursor-pointer" onclick="toggleDetails('${splitKey}', ${idx})">
+            <div class="flex items-center gap-3">
+              <button onclick="event.stopPropagation(); toggleExerciseCheck('${splitKey}', ${idx})" 
+                      class="w-6 h-6 rounded-lg border flex items-center justify-center text-xs transition ${ex.done ? 'bg-purple-600 border-purple-400 text-white' : 'border-brand-border text-transparent'}">
+                ✓
+              </button>
+              <div>
+                <h4 class="text-sm font-bold ${ex.done ? 'text-zinc-400 line-through' : 'text-white'}">${ex.name}</h4>
+                <p class="text-[11px] text-zinc-400">${ex.s1_reps}×${ex.s1_kg}kg • ${ex.s2_reps}×${ex.s2_kg}kg</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              ${isRecord ? '<span class="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-purple-900 text-purple-200 border border-purple-500">👑 PR</span>' : ''}
+              <span class="text-zinc-500 text-xs" id="chevron_${splitKey}_${idx}">▼</span>
+            </div>
+          </div>
+
+          <!-- Dropdown Details für 2 Sätze -->
+          <div id="details_${splitKey}_${idx}" class="hidden pt-4 mt-3 border-t border-brand-border/60">
+            <div class="grid grid-cols-2 gap-3 text-xs mb-3">
+              <!-- Satz 1 -->
+              <div class="bg-black/50 p-2.5 rounded-xl border border-brand-border">
+                <span class="font-bold text-purple-300 block mb-1">SATZ 1</span>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-zinc-400">Wdh:</span>
+                  <input type="number" value="${ex.s1_reps}" id="s1_reps_${splitKey}_${idx}" class="w-14 bg-black border border-brand-border rounded text-center text-white py-0.5">
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-zinc-400">kg:</span>
+                  <input type="number" step="0.5" value="${ex.s1_kg}" id="s1_kg_${splitKey}_${idx}" class="w-14 bg-black border border-brand-border rounded text-center text-white py-0.5 font-bold">
+                </div>
+              </div>
+
+              <!-- Satz 2 -->
+              <div class="bg-black/50 p-2.5 rounded-xl border border-brand-border">
+                <span class="font-bold text-purple-300 block mb-1">SATZ 2</span>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-zinc-400">Wdh:</span>
+                  <input type="number" value="${ex.s2_reps}" id="s2_reps_${splitKey}_${idx}" class="w-14 bg-black border border-brand-border rounded text-center text-white py-0.5">
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-zinc-400">kg:</span>
+                  <input type="number" step="0.5" value="${ex.s2_kg}" id="s2_kg_${splitKey}_${idx}" class="w-14 bg-black border border-brand-border rounded text-center text-white py-0.5 font-bold">
+                </div>
+              </div>
+            </div>
+
+            <div class="flex gap-2">
+              <button onclick="saveExerciseDetails('${splitKey}', ${idx})" class="flex-1 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition active:scale-95">
+                Übernehmen & Pause starten
+              </button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function toggleDetails(splitKey, idx) {
+      const details = document.getElementById(`details_${splitKey}_${idx}`);
+      const chevron = document.getElementById(`chevron_${splitKey}_${idx}`);
+      const isHidden = details.classList.contains('hidden');
+      details.classList.toggle('hidden');
+      chevron.innerText = isHidden ? '▲' : '▼';
+    }
+
+    function toggleExerciseCheck(splitKey, idx) {
+      const ex = appData.exercises[splitKey][idx];
+      ex.done = !ex.done;
+      saveAppData();
+      renderCurrentSplit();
+      checkAllCompleted(splitKey);
+    }
+
+    function saveExerciseDetails(splitKey, idx) {
+      const ex = appData.exercises[splitKey][idx];
+      const r1 = parseInt(document.getElementById(`s1_reps_${splitKey}_${idx}`).value) || 0;
+      const k1 = parseFloat(document.getElementById(`s1_kg_${splitKey}_${idx}`).value) || 0;
+      const r2 = parseInt(document.getElementById(`s2_reps_${splitKey}_${idx}`).value) || 0;
+      const k2 = parseFloat(document.getElementById(`s2_kg_${splitKey}_${idx}`).value) || 0;
+
+      const previousRecord = appData.records[ex.name] || 0;
+      const currentMax = Math.max(k1, k2);
+
+      ex.s1_reps = r1; ex.s1_kg = k1;
+      ex.s2_reps = r2; ex.s2_kg = k2;
+      ex.done = true;
+
+      if (currentMax > previousRecord) {
+        appData.records[ex.name] = currentMax;
+        // PR Shockwave auf die Kachel
+        const card = document.getElementById(`card_${splitKey}_${idx}`);
+        if (card) {
+          card.classList.add('pr-flash');
+          setTimeout(() => card.classList.remove('pr-flash'), 700);
+        }
+      }
+
+      saveAppData();
+      renderCurrentSplit();
+      startTimer(90);
+      checkAllCompleted(splitKey);
+    }
+
+    function updateProgress() {
+      const splitKey = appData.cycleIndex === 0 ? 'uk' : (appData.cycleIndex === 1 ? 'ok' : null);
+      if (!splitKey) return;
+
+      const list = appData.exercises[splitKey];
+      const total = list.length;
+      const doneCount = list.filter(e => e.done).length;
+      const pct = Math.round((doneCount / total) * 100);
+
+      document.getElementById('progressCountStr').innerText = `${doneCount} von ${total} absolviert`;
+      document.getElementById('progressBarFill').style.width = `${pct}%`;
+
+      // Tonnage berechnen: Σ (S1_reps * S1_kg + S2_reps * S2_kg)
+      let tonnage = 0;
+      list.forEach(e => {
+        if (e.done) {
+          tonnage += (e.s1_reps * e.s1_kg) + (e.s2_reps * e.s2_kg);
+        }
+      });
+      document.getElementById('tonnageDisplay').innerText = `${tonnage.toLocaleString('de-DE')} kg Tonnage`;
+    }
+
+    // --- 4. SIEGES-FEIER (OHNE GPU CRASH) ---
+    function checkAllCompleted(splitKey) {
+      const list = appData.exercises[splitKey];
+      const allDone = list.every(e => e.done);
+      if (allDone && list.length > 0) {
+        triggerVictoryScreen(splitKey);
+      }
+    }
+
+    function triggerVictoryScreen(splitKey) {
+      playSubtleGuraSound();
+
+      let tonnage = 0;
+      appData.exercises[splitKey].forEach(e => {
+        tonnage += (e.s1_reps * e.s1_kg) + (e.s2_reps * e.s2_kg);
+      });
+
+      document.getElementById('victoryStatsTonnage').innerText = `Bewegte Gesamtlast: ${tonnage.toLocaleString('de-DE')} kg`;
+      document.getElementById('victoryStatsExercises').innerText = `Alle ${appData.exercises[splitKey].length} Übungen zerstört!`;
+
+      const quotes = [
+        "\"Die Ära der Schwachen ist vorbei. Gurarara!\"",
+        "\"Vergiss niemals: Wahre Stärke entsteht durch Beständigkeit!\"",
+        "\"Dein Körper ist jetzt eine Festung. Ruh dich aus, mein Sohn!\""
+      ];
+      document.getElementById('victoryQuoteText').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+
+      document.getElementById('victoryModal').classList.remove('hidden');
+    }
+
+    function closeVictoryModal() {
+      document.getElementById('victoryModal').classList.add('hidden');
+    }
+
+    // Audio-Synthese für tiefen Whitebeard-Klang
+    function playSubtleGuraSound() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(90, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.8);
+        gain.gain.setValueAtTime(0.4, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.8);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.8);
+      } catch (e) {
+        console.log("Audio not allowed yet");
+      }
+    }
+
+    // --- 5. SATZPAUSEN-TIMER ---
+    let timerInterval = null;
+    let timerRemaining = 0;
+
+    function startTimer(seconds) {
+      clearInterval(timerInterval);
+      timerRemaining = seconds;
+      const bar = document.getElementById('timerBar');
+      bar.classList.remove('translate-y-32');
+
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        timerRemaining--;
+        if (timerRemaining <= 0) {
+          clearInterval(timerInterval);
+          playSubtleGuraSound();
+          stopTimer();
+        } else {
+          updateTimerDisplay();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(timerRemaining / 60);
+      const s = timerRemaining % 60;
+      document.getElementById('countdownText').innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function addTimerSeconds(s) {
+      timerRemaining += s;
+      updateTimerDisplay();
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+      document.getElementById('timerBar').classList.add('translate-y-32');
+    }
+
+    // --- 6. GEWICHT & WOCHENDURCHSCHNITT ---
+    function initMorningWeight() {
+      const current = appData.weights[todayStr] || '';
+      document.getElementById('morningWeightInput').value = current;
+      calculateSevenDayAverage();
+    }
+
+    function saveMorningWeight() {
+      const val = parseFloat(document.getElementById('morningWeightInput').value);
+      if (val && val > 30) {
+        appData.weights[todayStr] = val;
+        saveAppData();
+        calculateSevenDayAverage();
+        renderCharts();
+      }
+    }
+
+    function calculateSevenDayAverage() {
+      const dates = Object.keys(appData.weights).sort();
+      const last7 = dates.slice(-7).map(d => appData.weights[d]);
+      if (last7.length > 0) {
+        const avg = (last7.reduce((a, b) => a + b, 0) / last7.length).toFixed(1);
+        document.getElementById('sevenDayAvgBadge').innerText = `Ø 7 Tage: ${avg} kg`;
+      }
+    }
+
+    // --- 7. SVG VERLAUFSKURVEN (100% OFFLINE) ---
+    function renderCharts() {
+      renderWeightChart();
+      populateExerciseSelect();
+      renderExerciseChart();
+    }
+
+    function renderWeightChart() {
+      const container = document.getElementById('weightChartContainer');
+      const dates = Object.keys(appData.weights).sort().slice(-14);
+      if (dates.length < 2) {
+        container.innerHTML = '<span class="text-zinc-600 text-[10px] m-auto">Mindestens 2 Tage wiegen für Trendlinie</span>';
+        return;
+      }
+
+      const values = dates.map(d => appData.weights[d]);
+      const min = Math.min(...values) - 0.5;
+      const max = Math.max(...values) + 0.5;
+      const range = (max - min) || 1;
+
+      const w = 340; const h = 90;
+      const points = values.map((v, i) => {
+        const x = (i / (values.length - 1)) * (w - 20) + 10;
+        const y = h - ((v - min) / range) * (h - 20) - 10;
+        return `${x},${y}`;
+      }).join(' ');
+
+      container.innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}" class="w-full h-full">
+          <polyline fill="none" stroke="#A855F7" stroke-width="3" stroke-linecap="round" points="${points}" />
+          ${values.map((v, i) => {
+            const [x, y] = points.split(' ')[i].split(',');
+            return `<circle cx="${x}" cy="${y}" r="3.5" fill="#FFFFFF" />`;
+          }).join('')}
+        </svg>
+      `;
+    }
+
+    function populateExerciseSelect() {
+      const sel = document.getElementById('exerciseChartSelect');
+      sel.innerHTML = '';
+      const allEx = [...appData.exercises.uk, ...appData.exercises.ok];
+      allEx.forEach(ex => {
+        const opt = document.createElement('option');
+        opt.value = ex.name;
+        opt.innerText = ex.name;
+        sel.appendChild(opt);
+      });
+    }
+
+    function renderExerciseChart() {
+      const container = document.getElementById('exerciseChartContainer');
+      const selEx = document.getElementById('exerciseChartSelect').value;
+      const record = appData.records[selEx] || 40;
+
+      // Beispieldaten für Kraftkurve
+      const values = [record - 5, record - 2.5, record, record];
+      const w = 340; const h = 90;
+      const min = Math.min(...values) - 5;
+      const max = Math.max(...values) + 5;
+      const range = (max - min) || 1;
+
+      const points = values.map((v, i) => {
+        const x = (i / (values.length - 1)) * (w - 20) + 10;
+        const y = h - ((v - min) / range) * (h - 20) - 10;
+        return `${x},${y}`;
+      }).join(' ');
+
+      container.innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}" class="w-full h-full">
+          <polyline fill="none" stroke="#C084FC" stroke-width="3" stroke-linecap="round" points="${points}" />
+          ${values.map((v, i) => {
+            const [x, y] = points.split(' ')[i].split(',');
+            return `<circle cx="${x}" cy="${y}" r="3.5" fill="#A855F7" />`;
+          }).join('')}
+        </svg>
+      `;
+    }
+
+    // --- 8. RESTDAY FOTO & ZEITRAFFER ---
+    function handlePhotoUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        appData.photos[todayStr] = evt.target.result;
+        saveAppData();
+        loadRestdayPhoto();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function loadRestdayPhoto() {
+      const img = document.getElementById('activePhotoImg');
+      const text = document.getElementById('noPhotoText');
+      if (appData.photos[todayStr]) {
+        img.src = appData.photos[todayStr];
+        img.classList.remove('hidden');
+        text.classList.add('hidden');
+      } else {
+        img.classList.add('hidden');
+        text.classList.remove('hidden');
+      }
+    }
+
+    function playTimelapse() {
+      const photos = Object.values(appData.photos);
+      if (photos.length === 0) return;
+      const img = document.getElementById('activePhotoImg');
+      const text = document.getElementById('noPhotoText');
+      img.classList.remove('hidden');
+      text.classList.add('hidden');
+
+      let i = 0;
+      const iv = setInterval(() => {
+        img.src = photos[i];
+        i++;
+        if (i >= photos.length) clearInterval(iv);
+      }, 400);
+    }
+
+    // --- 9. MODALS & EXPORT/IMPORT ---
+    function openSettingsModal() { document.getElementById('settingsModal').classList.remove('hidden'); }
+    function closeSettingsModal() { document.getElementById('settingsModal').classList.add('hidden'); }
+    function openNotificationModal() { document.getElementById('notificationModal').classList.remove('hidden'); }
+    function closeNotificationModal() { document.getElementById('notificationModal').classList.add('hidden'); }
+
+    function exportDataToFile() {
+      const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData, null, 2));
+      const a = document.createElement('a');
+      a.href = str;
+      a.download = `whitebeard_gym_backup_${todayStr}.json`;
+      a.click();
+    }
+
+    function importDataFromFile(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          appData = JSON.parse(evt.target.result);
+          saveAppData();
+          location.reload();
+        } catch(err) {
+          alert("Fehlerhafte Backup-Datei!");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function downloadSelfApp() {
+      const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'index.html';
+      a.click();
+    }
+
+    function testNotificationSound() {
+      playSubtleGuraSound();
+    }
+
+    // --- 10. WISCHGESTEN (SWIPE) ---
+    function setupSwipe() {
+      let touchStartX = 0;
+      let touchEndX = 0;
+      const area = document.getElementById('swipeArea');
+
+      area.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, false);
+
+      area.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 50) shiftCycle(1);  // Swipe links -> nächster Tag
+        if (touchEndX - touchStartX > 50) shiftCycle(-1); // Swipe rechts -> vorheriger Tag
+      }, false);
+    }
+
+    // Start
+    window.onload = init;
+  </script>
+</body>
+</html>

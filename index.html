@@ -36,7 +36,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Start-Animation Keyframes */
+    /* Start-Animation */
     @keyframes crack-burst {
       0% { opacity: 0; transform: scale(0.6); }
       40% { opacity: 1; transform: scale(1.03); }
@@ -47,7 +47,7 @@
     }
 
     @keyframes skull-entrance {
-      0% { opacity: 0; transform: scale(0.8); filter: drop-shadow(0 0 0px rgba(168,85,247,0)); }
+      0% { opacity: 0; transform: scale(0.75); filter: drop-shadow(0 0 0px rgba(168,85,247,0)); }
       50% { opacity: 1; transform: scale(1.05); filter: drop-shadow(0 0 35px rgba(192,132,252,0.9)); }
       100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 20px rgba(168,85,247,0.6)); }
     }
@@ -103,7 +103,7 @@
 <body class="min-h-screen relative flex flex-col items-center">
 
   <!-- ========================================== -->
-  <!-- CINEMATISCHE APP-START ANIMATION (SPLASH)  -->
+  <!-- CINEMATISCHE APP-START ANIMATION MIT PNG   -->
   <!-- ========================================== -->
   <div id="splashScreen" onclick="dismissSplash()" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#020108] transition-opacity duration-700 select-none cursor-pointer">
     
@@ -119,33 +119,12 @@
       </svg>
     </div>
 
-    <!-- Leuchtender Whitebeard Jolly Roger -->
+    <!-- Dein Whitebeard PNG im Start-Screen -->
     <div class="relative z-10 flex flex-col items-center">
-      <div class="w-48 h-48 splash-skull">
-        <svg viewBox="0 0 400 400" class="w-full h-full">
-          <!-- Gekreuzte Riesenknochen -->
-          <g fill="#A855F7" stroke="#A855F7" stroke-linejoin="round">
-            <path d="M 60,70 C 45,55 60,35 75,45 C 90,30 110,45 100,60 L 300,340 C 315,325 335,340 325,355 C 340,370 320,390 305,380 C 290,395 270,380 280,365 L 80,85 C 65,100 45,85 60,70 Z" />
-            <path d="M 340,70 C 355,55 340,35 325,45 C 310,30 290,45 300,60 L 100,340 C 85,325 65,340 75,355 C 60,370 80,390 95,380 C 110,395 130,380 120,365 L 320,85 C 335,100 355,85 340,70 Z" />
-          </g>
-          <!-- Schädel -->
-          <path d="M 130,170 C 130,105 160,85 200,85 C 240,85 270,105 270,170 C 270,205 255,215 250,235 L 150,235 C 145,215 130,205 130,170 Z" fill="#0A0814" stroke="#D8B4FE" stroke-width="8"/>
-          <ellipse cx="170" cy="165" rx="16" ry="20" fill="#D8B4FE" />
-          <ellipse cx="230" cy="165" rx="16" ry="20" fill="#D8B4FE" />
-          <polygon points="200,185 192,205 208,205" fill="#D8B4FE"/>
-          <!-- Zähne -->
-          <rect x="165" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
-          <rect x="181" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
-          <rect x="197" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
-          <rect x="213" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
-          <rect x="229" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
-          <!-- Halbmond-Schnurrbart -->
-          <path d="M 40,165 C 110,265 190,260 200,240 C 210,260 290,265 360,165 C 285,225 215,210 200,215 C 185,210 115,225 40,165 Z" 
-                fill="#FFFFFF" stroke="#E9D5FF" stroke-width="4" filter="drop-shadow(0 0 14px rgba(255,255,255,0.9))"/>
-        </svg>
+      <div class="w-56 h-56 splash-skull flex items-center justify-center">
+        <img src="whitebeard.png" alt="Whitebeard" class="w-full h-full object-contain filter drop-shadow-[0_0_25px_rgba(168,85,247,0.85)]">
       </div>
 
-      <!-- Epische Inschrift -->
       <div class="text-center mt-5 opacity-0 splash-title">
         <h1 class="text-2xl font-black tracking-widest text-white drop-shadow-[0_0_15px_rgba(168,85,247,0.9)]">
           WHITEBEARDS GYM
@@ -156,13 +135,12 @@
       </div>
     </div>
 
-    <!-- Dezenter Tipp-Hinweis unten -->
     <p class="absolute bottom-8 text-[10px] uppercase tracking-widest text-zinc-500 font-semibold opacity-70">
       Tippen zum Starten
     </p>
   </div>
 
-  <!-- HINTERGRUND: Dauerhafter Jolly Roger & Risse während des Trainings -->
+  <!-- HINTERGRUND: Dein Whitebeard PNG & Risse im Training -->
   <div class="fixed inset-0 pointer-events-none flex items-center justify-center z-0 overflow-hidden">
     <svg viewBox="0 0 500 800" class="absolute w-full h-full opacity-20 text-purple-400 stroke-current" fill="none">
       <path d="M 250,400 L 220,330 L 170,300 L 120,240 L 70,220 M 170,300 L 190,210 L 160,140" stroke-width="1.8" stroke-linecap="round"/>
@@ -173,23 +151,8 @@
       <circle cx="250" cy="400" r="110" stroke="#A855F7" stroke-width="1" stroke-dasharray="6 8" opacity="0.4"/>
     </svg>
 
-    <svg viewBox="0 0 400 400" class="w-[88vw] max-w-[420px] opacity-25 drop-shadow-[0_0_25px_rgba(168,85,247,0.4)]">
-      <g fill="#A855F7" stroke="#A855F7" stroke-linejoin="round">
-        <path d="M 60,70 C 45,55 60,35 75,45 C 90,30 110,45 100,60 L 300,340 C 315,325 335,340 325,355 C 340,370 320,390 305,380 C 290,395 270,380 280,365 L 80,85 C 65,100 45,85 60,70 Z" />
-        <path d="M 340,70 C 355,55 340,35 325,45 C 310,30 290,45 300,60 L 100,340 C 85,325 65,340 75,355 C 60,370 80,390 95,380 C 110,395 130,380 120,365 L 320,85 C 335,100 355,85 340,70 Z" />
-      </g>
-      <path d="M 130,170 C 130,105 160,85 200,85 C 240,85 270,105 270,170 C 270,205 255,215 250,235 L 150,235 C 145,215 130,205 130,170 Z" fill="#0A0814" stroke="#D8B4FE" stroke-width="8"/>
-      <ellipse cx="170" cy="165" rx="16" ry="20" fill="#D8B4FE" />
-      <ellipse cx="230" cy="165" rx="16" ry="20" fill="#D8B4FE" />
-      <polygon points="200,185 192,205 208,205" fill="#D8B4FE"/>
-      <rect x="165" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
-      <rect x="181" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
-      <rect x="197" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
-      <rect x="213" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
-      <rect x="229" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
-      <path d="M 40,165 C 110,265 190,260 200,240 C 210,260 290,265 360,165 C 285,225 215,210 200,215 C 185,210 115,225 40,165 Z" 
-            fill="#FFFFFF" stroke="#E9D5FF" stroke-width="4" filter="drop-shadow(0 0 10px rgba(255,255,255,0.7))"/>
-    </svg>
+    <!-- Dein PNG dezent im Hintergrund -->
+    <img src="whitebeard.png" alt="Whitebeard Watermark" class="w-[85vw] max-w-[420px] max-h-[50vh] object-contain opacity-20 filter drop-shadow-[0_0_30px_rgba(168,85,247,0.35)]">
   </div>
 
   <!-- HAUPT-CONTAINER -->
@@ -214,7 +177,7 @@
       </div>
     </header>
 
-    <!-- Hero-Split Titel mit Pfeilen & Swipe -->
+    <!-- Hero-Split -->
     <section class="my-2 select-none relative" id="swipeArea">
       <div class="flex items-center justify-between">
         <button onclick="shiftCycle(-1)" class="p-2 text-zinc-500 hover:text-purple-300 transition active:scale-90">
@@ -261,7 +224,7 @@
       </div>
     </section>
 
-    <!-- Seismische Gura-Gura Skala -->
+    <!-- Seismische Skala -->
     <section id="workoutProgressSection" class="obsidian-card rounded-2xl p-4 my-2">
       <div class="flex justify-between items-center text-xs mb-2">
         <span class="text-zinc-300 font-bold" id="progressCountStr">0 von 5 absolviert</span>
@@ -275,10 +238,10 @@
       </div>
     </section>
 
-    <!-- Übungsliste (UK/OK) -->
+    <!-- Übungsliste -->
     <main id="exerciseListContainer" class="flex flex-col gap-3 my-3"></main>
 
-    <!-- RESTDAY: DIE ÄRA DES WACHSTUMS & MULTI-FOTO-GALERIE MIT GEIST-SILHOUETTE -->
+    <!-- Restday -->
     <section id="restdaySection" class="hidden flex flex-col gap-4 my-3">
       <div class="obsidian-card rounded-2xl p-5 text-center border-purple-500/40">
         <span class="text-4xl mb-2 block">⚓</span>
@@ -288,7 +251,7 @@
         </p>
       </div>
 
-      <!-- Foto Box mit Multi-Upload & Geist-Silhouette -->
+      <!-- Foto Box -->
       <div class="obsidian-card rounded-2xl p-4">
         <div class="flex justify-between items-center mb-3">
           <div class="flex items-center gap-2">
@@ -305,13 +268,10 @@
           </div>
         </div>
 
-        <!-- Haupt-Bildbereich mit Silhouette-Layer -->
         <div id="photoPreviewBox" class="w-full h-80 bg-black/80 rounded-2xl border border-dashed border-brand-border flex flex-col items-center justify-center overflow-hidden relative">
-          
           <img id="activePhotoImg" class="w-full h-full object-contain hidden relative z-10" alt="Form Check">
           <img id="onionGhostImg" class="w-full h-full object-contain hidden absolute inset-0 z-20 pointer-events-none opacity-35 filter brightness-125" alt="Ghost Compare">
 
-          <!-- Geist-Silhouette: Anatomischer V-Taper Guide -->
           <div id="ghostSilhouetteSvg" class="absolute inset-0 pointer-events-none z-30 flex items-center justify-center hidden">
             <svg viewBox="0 0 300 500" class="w-full h-full opacity-60 text-purple-300 stroke-current fill-none">
               <ellipse cx="150" cy="60" rx="22" ry="28" stroke-width="2" stroke-dasharray="4 4"/>
@@ -353,7 +313,7 @@
       </div>
     </section>
 
-    <!-- X/Y Progression Kurven -->
+    <!-- Graphen -->
     <section class="obsidian-card rounded-2xl p-4 my-3 shadow-lg">
       <h3 class="text-xs uppercase font-black tracking-wider text-purple-300 mb-3 flex items-center gap-1.5">
         <span>📈</span> Kraft & Körper-Verlauf
@@ -393,7 +353,9 @@
   <!-- Sieges Modal -->
   <div id="victoryModal" class="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50 hidden">
     <div class="haki-box w-full max-w-sm bg-brand-obsidian border-2 border-purple-500 rounded-3xl p-6 text-center shadow-2xl relative overflow-hidden">
-      <div class="text-5xl mb-2 drop-shadow-[0_0_15px_rgba(168,85,247,0.8)]">☠️</div>
+      <div class="w-20 h-20 mx-auto mb-2">
+        <img src="whitebeard.png" alt="Whitebeard" class="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(168,85,247,0.9)]">
+      </div>
       <h2 class="text-2xl font-black text-white tracking-wide">TRAINING VOLLENDET!</h2>
       <p class="text-[11px] uppercase tracking-widest text-purple-300 font-black mt-0.5">DER MANN, DER IM STEHEN STARB</p>
       <div class="my-4 p-3.5 bg-black/80 rounded-2xl border border-brand-border text-left">
@@ -447,7 +409,6 @@
   </div>
 
   <script>
-    // --- 1. DATEN-STRUKTUR & INITIALISIERUNG ---
     const DEFAULT_DATA = {
       cycleIndex: 0,
       weights: {},
@@ -488,7 +449,6 @@
       }
     }
 
-    // Splash Screen Steuerung
     let splashDismissed = false;
     function setupSplashScreen() {
       setTimeout(() => {
@@ -900,7 +860,7 @@
       `;
     }
 
-    // --- 2. MULTI-FOTO-GALERIE & GEIST-SILHOUETTE ---
+    // --- Multi-Foto & Geist ---
     let activePhotoIndex = 0;
     let isGhostActive = false;
 
@@ -1047,7 +1007,7 @@
       }, 450);
     }
 
-    // --- 3. BENACHRICHTIGUNGEN & SYSTEM ---
+    // System & Mitteilungen
     function autoAskNotification() {
       if ("Notification" in window && Notification.permission === "default") {
         setTimeout(() => { Notification.requestPermission(); }, 2500);

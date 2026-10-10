@@ -26,7 +26,6 @@
     }
   </script>
   <style>
-    /* Absolutes AMOLED-Schwarz & butterweiches 120Hz Scrollen */
     body {
       background-color: #020108;
       color: #FFFFFF;
@@ -37,7 +36,33 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Leuchtendes Haki & Gura-Gura Sieges-Glanz */
+    /* Start-Animation Keyframes */
+    @keyframes crack-burst {
+      0% { opacity: 0; transform: scale(0.6); }
+      40% { opacity: 1; transform: scale(1.03); }
+      100% { opacity: 0.85; transform: scale(1); }
+    }
+    .splash-cracks {
+      animation: crack-burst 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes skull-entrance {
+      0% { opacity: 0; transform: scale(0.8); filter: drop-shadow(0 0 0px rgba(168,85,247,0)); }
+      50% { opacity: 1; transform: scale(1.05); filter: drop-shadow(0 0 35px rgba(192,132,252,0.9)); }
+      100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 20px rgba(168,85,247,0.6)); }
+    }
+    .splash-skull {
+      animation: skull-entrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes title-fade {
+      0% { opacity: 0; transform: translateY(12px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .splash-title {
+      animation: title-fade 0.8s ease-out 0.4s forwards;
+    }
+
     @keyframes haki-glow {
       0%, 100% {
         box-shadow: 0 0 30px rgba(168, 85, 247, 0.35), inset 0 0 15px rgba(168, 85, 247, 0.2);
@@ -52,7 +77,6 @@
       animation: haki-glow 2.8s infinite ease-in-out;
     }
 
-    /* PR Schockwellen-Puls bei neuem Bestwert */
     @keyframes pr-pulse {
       0% { transform: scale(1); border-color: #C084FC; }
       50% { transform: scale(1.02); border-color: #FFFFFF; box-shadow: 0 0 25px rgba(168, 85, 247, 0.8); }
@@ -62,7 +86,6 @@
       animation: pr-pulse 0.6s ease-out;
     }
 
-    /* Scharfer Obsidian-Look mit Haki-Kante */
     .obsidian-card {
       background: linear-gradient(165deg, #131024 0%, #0A0814 100%);
       border: 1px solid #2B2352;
@@ -79,46 +102,91 @@
 </head>
 <body class="min-h-screen relative flex flex-col items-center">
 
-  <!-- HINTERGRUND: Originalgetreuer Whitebeard Jolly Roger & Gura-Gura Raumrisse -->
+  <!-- ========================================== -->
+  <!-- CINEMATISCHE APP-START ANIMATION (SPLASH)  -->
+  <!-- ========================================== -->
+  <div id="splashScreen" onclick="dismissSplash()" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#020108] transition-opacity duration-700 select-none cursor-pointer">
+    
+    <!-- Animierte Gura-Gura Raumrisse -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+      <svg viewBox="0 0 500 800" class="w-full h-full text-purple-400 stroke-current splash-cracks" fill="none">
+        <path d="M 250,400 L 210,320 L 150,290 L 90,220 L 30,200 M 150,290 L 170,190 L 130,120" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M 250,400 L 300,330 L 360,290 L 430,260 L 490,170 M 360,290 L 380,190 L 440,130" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M 250,400 L 200,490 L 140,540 L 70,610 L 20,690 M 140,540 L 170,630 L 120,720" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M 250,400 L 290,480 L 350,550 L 410,620 L 480,700 M 350,550 L 330,650 L 370,750" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="250" cy="400" r="60" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="6 8" opacity="0.8"/>
+        <circle cx="250" cy="400" r="140" stroke="#C084FC" stroke-width="1.5" stroke-dasharray="8 12" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <!-- Leuchtender Whitebeard Jolly Roger -->
+    <div class="relative z-10 flex flex-col items-center">
+      <div class="w-48 h-48 splash-skull">
+        <svg viewBox="0 0 400 400" class="w-full h-full">
+          <!-- Gekreuzte Riesenknochen -->
+          <g fill="#A855F7" stroke="#A855F7" stroke-linejoin="round">
+            <path d="M 60,70 C 45,55 60,35 75,45 C 90,30 110,45 100,60 L 300,340 C 315,325 335,340 325,355 C 340,370 320,390 305,380 C 290,395 270,380 280,365 L 80,85 C 65,100 45,85 60,70 Z" />
+            <path d="M 340,70 C 355,55 340,35 325,45 C 310,30 290,45 300,60 L 100,340 C 85,325 65,340 75,355 C 60,370 80,390 95,380 C 110,395 130,380 120,365 L 320,85 C 335,100 355,85 340,70 Z" />
+          </g>
+          <!-- Schädel -->
+          <path d="M 130,170 C 130,105 160,85 200,85 C 240,85 270,105 270,170 C 270,205 255,215 250,235 L 150,235 C 145,215 130,205 130,170 Z" fill="#0A0814" stroke="#D8B4FE" stroke-width="8"/>
+          <ellipse cx="170" cy="165" rx="16" ry="20" fill="#D8B4FE" />
+          <ellipse cx="230" cy="165" rx="16" ry="20" fill="#D8B4FE" />
+          <polygon points="200,185 192,205 208,205" fill="#D8B4FE"/>
+          <!-- Zähne -->
+          <rect x="165" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
+          <rect x="181" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
+          <rect x="197" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
+          <rect x="213" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
+          <rect x="229" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
+          <!-- Halbmond-Schnurrbart -->
+          <path d="M 40,165 C 110,265 190,260 200,240 C 210,260 290,265 360,165 C 285,225 215,210 200,215 C 185,210 115,225 40,165 Z" 
+                fill="#FFFFFF" stroke="#E9D5FF" stroke-width="4" filter="drop-shadow(0 0 14px rgba(255,255,255,0.9))"/>
+        </svg>
+      </div>
+
+      <!-- Epische Inschrift -->
+      <div class="text-center mt-5 opacity-0 splash-title">
+        <h1 class="text-2xl font-black tracking-widest text-white drop-shadow-[0_0_15px_rgba(168,85,247,0.9)]">
+          WHITEBEARDS GYM
+        </h1>
+        <p class="text-[10px] uppercase tracking-[0.25em] text-purple-300 font-extrabold mt-1">
+          DIE ÄRA DES WACHSTUMS BEGINNT
+        </p>
+      </div>
+    </div>
+
+    <!-- Dezenter Tipp-Hinweis unten -->
+    <p class="absolute bottom-8 text-[10px] uppercase tracking-widest text-zinc-500 font-semibold opacity-70">
+      Tippen zum Starten
+    </p>
+  </div>
+
+  <!-- HINTERGRUND: Dauerhafter Jolly Roger & Risse während des Trainings -->
   <div class="fixed inset-0 pointer-events-none flex items-center justify-center z-0 overflow-hidden">
-    <!-- Gura-Gura Risse (Zerbrechende Luft) -->
     <svg viewBox="0 0 500 800" class="absolute w-full h-full opacity-20 text-purple-400 stroke-current" fill="none">
       <path d="M 250,400 L 220,330 L 170,300 L 120,240 L 70,220 M 170,300 L 190,210 L 160,140" stroke-width="1.8" stroke-linecap="round"/>
       <path d="M 250,400 L 290,340 L 340,310 L 410,290 L 460,210 M 340,310 L 360,220 L 420,160" stroke-width="1.8" stroke-linecap="round"/>
       <path d="M 250,400 L 210,480 L 150,520 L 90,580 L 40,650 M 150,520 L 180,600 L 140,680" stroke-width="1.8" stroke-linecap="round"/>
       <path d="M 250,400 L 280,470 L 330,530 L 380,590 L 450,660 M 330,530 L 310,620 L 350,710" stroke-width="1.8" stroke-linecap="round"/>
-      <!-- Schockwellen-Epizentrum Kreis -->
       <circle cx="250" cy="400" r="45" stroke="#FFFFFF" stroke-width="1.2" stroke-dasharray="4 6" opacity="0.6"/>
       <circle cx="250" cy="400" r="110" stroke="#A855F7" stroke-width="1" stroke-dasharray="6 8" opacity="0.4"/>
     </svg>
 
-    <!-- Der Original Whitebeard Pirates Jolly Roger -->
     <svg viewBox="0 0 400 400" class="w-[88vw] max-w-[420px] opacity-25 drop-shadow-[0_0_25px_rgba(168,85,247,0.4)]">
       <g fill="#A855F7" stroke="#A855F7" stroke-linejoin="round">
-        <!-- Riesenknochen Oben-Links nach Unten-Rechts -->
         <path d="M 60,70 C 45,55 60,35 75,45 C 90,30 110,45 100,60 L 300,340 C 315,325 335,340 325,355 C 340,370 320,390 305,380 C 290,395 270,380 280,365 L 80,85 C 65,100 45,85 60,70 Z" />
-        <!-- Riesenknochen Oben-Rechts nach Unten-Links -->
         <path d="M 340,70 C 355,55 340,35 325,45 C 310,30 290,45 300,60 L 100,340 C 85,325 65,340 75,355 C 60,370 80,390 95,380 C 110,395 130,380 120,365 L 320,85 C 335,100 355,85 340,70 Z" />
       </g>
-      
-      <!-- Totenschädel Hauptform -->
       <path d="M 130,170 C 130,105 160,85 200,85 C 240,85 270,105 270,170 C 270,205 255,215 250,235 L 150,235 C 145,215 130,205 130,170 Z" fill="#0A0814" stroke="#D8B4FE" stroke-width="8"/>
-      
-      <!-- Augenhöhlen -->
       <ellipse cx="170" cy="165" rx="16" ry="20" fill="#D8B4FE" />
       <ellipse cx="230" cy="165" rx="16" ry="20" fill="#D8B4FE" />
-      
-      <!-- Nasenhöhle -->
       <polygon points="200,185 192,205 208,205" fill="#D8B4FE"/>
-      
-      <!-- Zähne / Breites Grinsen -->
       <rect x="165" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
       <rect x="181" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
       <rect x="197" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
       <rect x="213" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
       <rect x="229" y="222" width="12" height="13" rx="2" fill="#D8B4FE"/>
-
-      <!-- DER LEGENDÄRE WEISSE HALBMOND-SCHNURRBART (Schwung nach oben) -->
       <path d="M 40,165 C 110,265 190,260 200,240 C 210,260 290,265 360,165 C 285,225 215,210 200,215 C 185,210 115,225 40,165 Z" 
             fill="#FFFFFF" stroke="#E9D5FF" stroke-width="4" filter="drop-shadow(0 0 10px rgba(255,255,255,0.7))"/>
     </svg>
@@ -127,7 +195,7 @@
   <!-- HAUPT-CONTAINER -->
   <div class="w-full max-w-md min-h-screen flex flex-col relative z-10 px-4 py-5 pb-36">
 
-    <!-- Top-Bar: Datum, Ära-Tag & Actions -->
+    <!-- Header -->
     <header class="flex justify-between items-center mb-4">
       <div>
         <div class="flex items-center gap-1.5">
@@ -146,7 +214,7 @@
       </div>
     </header>
 
-    <!-- Monumentaler Hero Split Titel mit Haki-Aura -->
+    <!-- Hero-Split Titel mit Pfeilen & Swipe -->
     <section class="my-2 select-none relative" id="swipeArea">
       <div class="flex items-center justify-between">
         <button onclick="shiftCycle(-1)" class="p-2 text-zinc-500 hover:text-purple-300 transition active:scale-90">
@@ -193,7 +261,7 @@
       </div>
     </section>
 
-    <!-- Seismische Gura-Gura Skala (Tonnage & Fortschritt) -->
+    <!-- Seismische Gura-Gura Skala -->
     <section id="workoutProgressSection" class="obsidian-card rounded-2xl p-4 my-2">
       <div class="flex justify-between items-center text-xs mb-2">
         <span class="text-zinc-300 font-bold" id="progressCountStr">0 von 5 absolviert</span>
@@ -202,16 +270,15 @@
           <span class="block text-[9px] uppercase tracking-wider text-purple-400/80 font-semibold" id="seismicLevelStr">STUFE: RUHE VOR DEM STURM</span>
         </div>
       </div>
-      <!-- Fortschrittsbalken mit Energie-Füllung -->
       <div class="w-full bg-black/70 h-3 rounded-full overflow-hidden border border-brand-border p-0.5">
         <div id="progressBarFill" class="h-full bg-gradient-to-r from-purple-700 via-purple-500 to-white w-0 rounded-full transition-all duration-300 shadow-[0_0_12px_rgba(168,85,247,0.8)]"></div>
       </div>
     </section>
 
-    <!-- Übungsliste (Karten im Obsidian-Look) -->
+    <!-- Übungsliste (UK/OK) -->
     <main id="exerciseListContainer" class="flex flex-col gap-3 my-3"></main>
 
-    <!-- Restday Ansicht (Ehrenhalle des Wachstums) -->
+    <!-- RESTDAY: DIE ÄRA DES WACHSTUMS & MULTI-FOTO-GALERIE MIT GEIST-SILHOUETTE -->
     <section id="restdaySection" class="hidden flex flex-col gap-4 my-3">
       <div class="obsidian-card rounded-2xl p-5 text-center border-purple-500/40">
         <span class="text-4xl mb-2 block">⚓</span>
@@ -221,21 +288,67 @@
         </p>
       </div>
 
-      <!-- Foto Zeitraffer Box -->
+      <!-- Foto Box mit Multi-Upload & Geist-Silhouette -->
       <div class="obsidian-card rounded-2xl p-4">
         <div class="flex justify-between items-center mb-3">
-          <span class="text-xs uppercase font-extrabold tracking-wider text-purple-300">📸 Form-Zeitraffer</span>
-          <button onclick="playTimelapse()" class="text-xs px-3 py-1 bg-purple-950 border border-purple-600 rounded-lg text-purple-200 font-bold active:scale-95">
-            ▶ Abspielen
+          <div class="flex items-center gap-2">
+            <span class="text-xs uppercase font-extrabold tracking-wider text-purple-300">📸 Form-Galerie</span>
+            <span id="photoCountBadge" class="text-[10px] px-2 py-0.5 rounded-full bg-purple-950 border border-purple-800 text-purple-300 font-bold">0 Fotos</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button onclick="toggleGhostSilhouette()" id="ghostToggleBtn" class="text-xs px-2.5 py-1 bg-black/60 border border-brand-border rounded-lg text-zinc-400 font-bold active:scale-95 transition">
+              👻 Geist: AUS
+            </button>
+            <button onclick="playTimelapse()" class="text-xs px-2.5 py-1 bg-purple-950 border border-purple-600 rounded-lg text-purple-200 font-bold active:scale-95">
+              ▶ Film
+            </button>
+          </div>
+        </div>
+
+        <!-- Haupt-Bildbereich mit Silhouette-Layer -->
+        <div id="photoPreviewBox" class="w-full h-80 bg-black/80 rounded-2xl border border-dashed border-brand-border flex flex-col items-center justify-center overflow-hidden relative">
+          
+          <img id="activePhotoImg" class="w-full h-full object-contain hidden relative z-10" alt="Form Check">
+          <img id="onionGhostImg" class="w-full h-full object-contain hidden absolute inset-0 z-20 pointer-events-none opacity-35 filter brightness-125" alt="Ghost Compare">
+
+          <!-- Geist-Silhouette: Anatomischer V-Taper Guide -->
+          <div id="ghostSilhouetteSvg" class="absolute inset-0 pointer-events-none z-30 flex items-center justify-center hidden">
+            <svg viewBox="0 0 300 500" class="w-full h-full opacity-60 text-purple-300 stroke-current fill-none">
+              <ellipse cx="150" cy="60" rx="22" ry="28" stroke-width="2" stroke-dasharray="4 4"/>
+              <path d="M 136,86 L 132,105 M 164,86 L 168,105" stroke-width="2"/>
+              <path d="M 132,105 L 75,125 C 65,130 65,145 72,150 L 90,225" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M 168,105 L 225,125 C 235,130 235,145 228,150 L 210,225" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M 100,165 Q 150,195 200,165" stroke-width="1.8" stroke-dasharray="3 3"/>
+              <path d="M 90,170 Q 115,220 120,265" stroke-width="2.2"/>
+              <path d="M 210,170 Q 185,220 180,265" stroke-width="2.2"/>
+              <line x1="120" y1="265" x2="180" y2="265" stroke-width="2" stroke-dasharray="4 4"/>
+              <path d="M 120,265 L 105,370 L 115,480" stroke-width="2" stroke-dasharray="5 5"/>
+              <path d="M 180,265 L 195,370 L 185,480" stroke-width="2" stroke-dasharray="5 5"/>
+              <line x1="150" y1="40" x2="150" y2="480" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="3 6" opacity="0.4"/>
+            </svg>
+          </div>
+
+          <div id="noPhotoText" class="text-center p-4">
+            <span class="text-3xl block mb-2 opacity-40">📸</span>
+            <p class="text-xs text-zinc-400 font-semibold">Noch keine Form-Fotos gespeichert</p>
+            <p class="text-[10px] text-zinc-500 mt-1">Lade Front, Rücken oder Beine hoch</p>
+          </div>
+
+          <button onclick="deleteActivePhoto()" id="deletePhotoBtn" class="absolute top-2.5 right-2.5 z-40 p-2 bg-black/80 border border-red-800/80 text-red-400 rounded-xl hidden active:scale-90" title="Bild löschen">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
           </button>
         </div>
-        <div id="photoPreviewBox" class="w-full h-48 bg-black/70 rounded-xl border border-dashed border-brand-border flex flex-col items-center justify-center overflow-hidden relative">
-          <img id="activePhotoImg" class="w-full h-full object-cover hidden" alt="Form Check">
-          <p id="noPhotoText" class="text-xs text-zinc-500">Heutigen Fortschritt festhalten</p>
+
+        <div id="ghostSliderBox" class="hidden my-2.5 p-2.5 bg-black/60 rounded-xl border border-brand-border flex items-center gap-3">
+          <span class="text-[10px] font-bold text-purple-300">GEIST-STÄRKE</span>
+          <input type="range" min="10" max="80" value="40" id="ghostOpacitySlider" oninput="adjustGhostOpacity(this.value)" class="flex-1 accent-purple-500 h-1 bg-zinc-800 rounded">
         </div>
-        <label class="mt-3 block text-center py-2.5 bg-black/60 border border-brand-border rounded-xl text-xs font-bold text-purple-300 hover:text-white cursor-pointer active:scale-95 transition">
-          Foto aufnehmen / auswählen
-          <input type="file" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+
+        <div id="thumbnailStrip" class="flex gap-2 overflow-x-auto py-2.5 mt-1"></div>
+
+        <label class="mt-2 block text-center py-3 bg-gradient-to-r from-purple-900/60 to-purple-800/60 border border-purple-600 rounded-xl text-xs font-black text-white hover:brightness-110 cursor-pointer active:scale-95 transition shadow-lg">
+          ➕ Fotos hinzufügen (Mehrfachauswahl möglich)
+          <input type="file" accept="image/*" multiple class="hidden" onchange="handleMultiplePhotosUpload(event)">
         </label>
       </div>
     </section>
@@ -262,8 +375,8 @@
 
   </div>
 
-  <!-- Satzpausen-Timer HUD -->
-  <div id="timerBar" class="fixed bottom-4 left-4 right-4 max-w-md mx-auto bg-brand-obsidian/95 border border-purple-500 rounded-2xl p-3 shadow-[0_10px_30px_rgba(0,0,0,0.8)] flex items-center justify-between z-40 transition-all duration-300 translate-y-36">
+  <!-- Timer HUD -->
+  <div id="timerBar" class="fixed bottom-4 left-4 right-4 max-w-md mx-auto bg-brand-obsidian/95 border border-purple-500 rounded-2xl p-3 shadow-2xl flex items-center justify-between z-40 transition-all duration-300 translate-y-36">
     <div class="flex items-center gap-3">
       <span class="text-2xl">⏱️</span>
       <div>
@@ -277,43 +390,36 @@
     </div>
   </div>
 
-  <!-- SIEGES-MODAL: DER MANN, DER IM STEHEN STARB -->
+  <!-- Sieges Modal -->
   <div id="victoryModal" class="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50 hidden">
     <div class="haki-box w-full max-w-sm bg-brand-obsidian border-2 border-purple-500 rounded-3xl p-6 text-center shadow-2xl relative overflow-hidden">
-      
-      <!-- Hintergrund Schockwellen-Riss im Fenster -->
       <div class="text-5xl mb-2 drop-shadow-[0_0_15px_rgba(168,85,247,0.8)]">☠️</div>
       <h2 class="text-2xl font-black text-white tracking-wide">TRAINING VOLLENDET!</h2>
       <p class="text-[11px] uppercase tracking-widest text-purple-300 font-black mt-0.5">DER MANN, DER IM STEHEN STARB</p>
-      
       <div class="my-4 p-3.5 bg-black/80 rounded-2xl border border-brand-border text-left">
         <p class="text-xs text-purple-200 font-extrabold" id="victoryStatsTonnage">Bewegte Gesamtlast: 0 kg</p>
         <p class="text-xs text-zinc-400 mt-1" id="victoryStatsExercises">Alle 5 Übungen bezwungen!</p>
       </div>
-
       <p class="text-xs italic text-zinc-300 my-4 leading-relaxed" id="victoryQuoteText">
-        "Selbst im Moment des Todes wich sein Körper keinen einzigen Schritt zurück. Gurararara!"
+        "Selbst im Moment des Todes wich sein gewaltiger Körper keinen einzigen Schritt zurück. Gurararara!"
       </p>
-
-      <button onclick="closeVictoryModal()" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white font-black rounded-xl transition active:scale-95 shadow-lg shadow-purple-950 text-xs tracking-wider">
+      <button onclick="closeVictoryModal()" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white font-black rounded-xl transition active:scale-95 text-xs">
         EHRE ERWIESEN
       </button>
     </div>
   </div>
 
-  <!-- Benachrichtigungen Modal -->
+  <!-- Modals -->
   <div id="notificationModal" class="fixed inset-0 bg-black/85 flex items-center justify-center p-4 z-50 hidden">
     <div class="w-full max-w-sm obsidian-card rounded-3xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-3">
-        <h3 class="text-xs uppercase font-black text-white tracking-wider flex items-center gap-1.5">
-          <span>🔔</span> Erinnerungen
-        </h3>
+        <h3 class="text-xs uppercase font-black text-white tracking-wider">🔔 Erinnerungen</h3>
         <button onclick="closeNotificationModal()" class="text-zinc-500 hover:text-white p-1 font-bold">✕</button>
       </div>
       <p id="notifStatusText" class="text-xs text-zinc-400 mb-4">Status wird geladen...</p>
       <div class="space-y-2.5">
-        <button onclick="enablePushNotifications()" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-xl text-xs tracking-wide">
-          Erinnerungen auf Handy scharfschalten
+        <button onclick="enablePushNotifications()" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-xl text-xs">
+          Erinnerungen scharfschalten
         </button>
         <button onclick="sendTestNotification()" class="w-full py-2.5 bg-black border border-brand-border text-purple-300 font-bold rounded-xl text-xs">
           Test-Mitteilung sofort senden 📲
@@ -322,7 +428,6 @@
     </div>
   </div>
 
-  <!-- Einstellungen Modal -->
   <div id="settingsModal" class="fixed inset-0 bg-black/85 flex items-center justify-center p-4 z-50 hidden">
     <div class="w-full max-w-sm obsidian-card rounded-3xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -342,12 +447,12 @@
   </div>
 
   <script>
-    // --- 1. DATEN-STRUKTUR & STANDARD-ÜBUNGEN ---
+    // --- 1. DATEN-STRUKTUR & INITIALISIERUNG ---
     const DEFAULT_DATA = {
       cycleIndex: 0,
       weights: {},
       records: {},
-      photos: {},
+      photosList: [],
       exercises: {
         uk: [
           { name: "eGym Beinpresse", s1_reps: 12, s1_kg: 140, s2_reps: 12, s2_kg: 140, done: false },
@@ -371,13 +476,40 @@
     };
 
     let appData = JSON.parse(localStorage.getItem('wb_gym_data') || 'null') || DEFAULT_DATA;
+    if (!appData.photosList) appData.photosList = [];
+
     const todayStr = new Date().toISOString().split('T')[0];
 
     function saveAppData() {
-      localStorage.setItem('wb_gym_data', JSON.stringify(appData));
+      try {
+        localStorage.setItem('wb_gym_data', JSON.stringify(appData));
+      } catch (e) {
+        alert("Speicher voll! Bitte entferne 1-2 alte Fotos.");
+      }
+    }
+
+    // Splash Screen Steuerung
+    let splashDismissed = false;
+    function setupSplashScreen() {
+      setTimeout(() => {
+        dismissSplash();
+      }, 2100);
+    }
+
+    function dismissSplash() {
+      if (splashDismissed) return;
+      splashDismissed = true;
+      const splash = document.getElementById('splashScreen');
+      if (splash) {
+        splash.style.opacity = '0';
+        setTimeout(() => {
+          splash.style.display = 'none';
+        }, 700);
+      }
     }
 
     function init() {
+      setupSplashScreen();
       renderDate();
       calculateCycle();
       renderCurrentSplit();
@@ -437,7 +569,7 @@
         exContainer.classList.add('hidden');
         progSection.classList.add('hidden');
         restSection.classList.remove('hidden');
-        loadRestdayPhoto();
+        renderPhotoGallery();
       }
       updateProgress();
     }
@@ -569,7 +701,6 @@
       });
       document.getElementById('tonnageDisplay').innerText = `${tonnage.toLocaleString('de-DE')} kg Tonnage`;
 
-      // Seismische Beben-Stufe
       const levelEl = document.getElementById('seismicLevelStr');
       if (tonnage === 0) levelEl.innerText = "STUFE: RUHE VOR DEM STURM";
       else if (tonnage < 3000) levelEl.innerText = "STUFE: BODENBEBEN";
@@ -609,7 +740,6 @@
       document.getElementById('victoryModal').classList.add('hidden');
     }
 
-    // Tiefer Gura-Gura Bass-Sound ohne Verzögerung
     function playDeepGuraSound() {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -669,7 +799,6 @@
       document.getElementById('timerBar').classList.add('translate-y-36');
     }
 
-    // Morgen-Gewicht & Wochendurchschnitt
     function initMorningWeight() {
       document.getElementById('morningWeightInput').value = appData.weights[todayStr] || '';
       calculateSevenDayAverage();
@@ -694,7 +823,6 @@
       }
     }
 
-    // Progression Graphen
     function renderCharts() {
       renderWeightChart();
       populateExerciseSelect();
@@ -772,52 +900,157 @@
       `;
     }
 
-    // Restday Foto & Zeitraffer
-    function handlePhotoUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
+    // --- 2. MULTI-FOTO-GALERIE & GEIST-SILHOUETTE ---
+    let activePhotoIndex = 0;
+    let isGhostActive = false;
+
+    function compressImageFile(file, callback) {
       const reader = new FileReader();
-      reader.onload = function(evt) {
-        appData.photos[todayStr] = evt.target.result;
-        saveAppData();
-        loadRestdayPhoto();
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let w = img.width, h = img.height;
+          const maxDim = 850;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+            else { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          callback(canvas.toDataURL('image/jpeg', 0.65));
+        };
+        img.src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
 
-    function loadRestdayPhoto() {
+    function handleMultiplePhotosUpload(e) {
+      const files = Array.from(e.target.files);
+      if (!files.length) return;
+
+      let processed = 0;
+      files.forEach(file => {
+        compressImageFile(file, base64Url => {
+          appData.photosList.push({
+            id: 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+            date: todayStr,
+            url: base64Url
+          });
+          processed++;
+          if (processed === files.length) {
+            activePhotoIndex = appData.photosList.length - 1;
+            saveAppData();
+            renderPhotoGallery();
+          }
+        });
+      });
+    }
+
+    function renderPhotoGallery() {
+      const list = appData.photosList;
+      const countBadge = document.getElementById('photoCountBadge');
       const img = document.getElementById('activePhotoImg');
-      const text = document.getElementById('noPhotoText');
-      if (appData.photos[todayStr]) {
-        img.src = appData.photos[todayStr];
-        img.classList.remove('hidden');
-        text.classList.add('hidden');
-      } else {
+      const placeholder = document.getElementById('noPhotoText');
+      const deleteBtn = document.getElementById('deletePhotoBtn');
+      const strip = document.getElementById('thumbnailStrip');
+
+      countBadge.innerText = `${list.length} Foto${list.length === 1 ? '' : 's'}`;
+      strip.innerHTML = '';
+
+      if (list.length === 0) {
         img.classList.add('hidden');
-        text.classList.remove('hidden');
+        placeholder.classList.remove('hidden');
+        deleteBtn.classList.add('hidden');
+        document.getElementById('onionGhostImg').classList.add('hidden');
+        return;
+      }
+
+      if (activePhotoIndex >= list.length) activePhotoIndex = list.length - 1;
+      if (activePhotoIndex < 0) activePhotoIndex = 0;
+
+      const current = list[activePhotoIndex];
+      img.src = current.url;
+      img.classList.remove('hidden');
+      placeholder.classList.add('hidden');
+      deleteBtn.classList.remove('hidden');
+
+      const ghostImg = document.getElementById('onionGhostImg');
+      if (isGhostActive && activePhotoIndex > 0) {
+        ghostImg.src = list[activePhotoIndex - 1].url;
+        ghostImg.classList.remove('hidden');
+      } else {
+        ghostImg.classList.add('hidden');
+      }
+
+      list.forEach((item, idx) => {
+        const thumb = document.createElement('div');
+        const isSelected = (idx === activePhotoIndex);
+        thumb.className = `w-14 h-14 rounded-xl overflow-hidden flex-shrink-0 border-2 cursor-pointer transition-all ${isSelected ? 'border-purple-400 scale-105 shadow-[0_0_10px_rgba(168,85,247,0.8)]' : 'border-brand-border opacity-60'}`;
+        thumb.innerHTML = `<img src="${item.url}" class="w-full h-full object-cover">`;
+        thumb.onclick = () => {
+          activePhotoIndex = idx;
+          renderPhotoGallery();
+        };
+        strip.appendChild(thumb);
+      });
+    }
+
+    function deleteActivePhoto() {
+      if (appData.photosList.length === 0) return;
+      if (confirm("Dieses Foto wirklich löschen?")) {
+        appData.photosList.splice(activePhotoIndex, 1);
+        saveAppData();
+        renderPhotoGallery();
       }
     }
 
-    function playTimelapse() {
-      const photos = Object.values(appData.photos);
-      if (photos.length === 0) return;
-      const img = document.getElementById('activePhotoImg');
-      const text = document.getElementById('noPhotoText');
-      img.classList.remove('hidden');
-      text.classList.add('hidden');
+    function toggleGhostSilhouette() {
+      isGhostActive = !isGhostActive;
+      const btn = document.getElementById('ghostToggleBtn');
+      const svg = document.getElementById('ghostSilhouetteSvg');
+      const slider = document.getElementById('ghostSliderBox');
 
-      let i = 0;
-      const iv = setInterval(() => {
-        img.src = photos[i];
-        i++;
-        if (i >= photos.length) clearInterval(iv);
-      }, 400);
+      if (isGhostActive) {
+        btn.innerText = "👻 Geist: AN";
+        btn.className = "text-xs px-2.5 py-1 bg-purple-600 border border-purple-400 rounded-lg text-white font-black active:scale-95 shadow-[0_0_10px_rgba(168,85,247,0.7)]";
+        svg.classList.remove('hidden');
+        slider.classList.remove('hidden');
+      } else {
+        btn.innerText = "👻 Geist: AUS";
+        btn.className = "text-xs px-2.5 py-1 bg-black/60 border border-brand-border rounded-lg text-zinc-400 font-bold active:scale-95 transition";
+        svg.classList.add('hidden');
+        slider.classList.add('hidden');
+      }
+      renderPhotoGallery();
     }
 
-    // Mitteilungen
+    function adjustGhostOpacity(val) {
+      const opacity = val / 100;
+      document.getElementById('ghostSilhouetteSvg').style.opacity = opacity;
+      document.getElementById('onionGhostImg').style.opacity = opacity;
+    }
+
+    function playTimelapse() {
+      const list = appData.photosList;
+      if (list.length < 2) {
+        alert("Nimm mindestens 2 Fotos auf, um den Film zu starten!");
+        return;
+      }
+      let i = 0;
+      const timer = setInterval(() => {
+        activePhotoIndex = i;
+        renderPhotoGallery();
+        i++;
+        if (i >= list.length) clearInterval(timer);
+      }, 450);
+    }
+
+    // --- 3. BENACHRICHTIGUNGEN & SYSTEM ---
     function autoAskNotification() {
       if ("Notification" in window && Notification.permission === "default") {
-        setTimeout(() => { Notification.requestPermission(); }, 1500);
+        setTimeout(() => { Notification.requestPermission(); }, 2500);
       }
     }
 
@@ -829,7 +1062,7 @@
     function updateNotifStatus() {
       const statusEl = document.getElementById('notifStatusText');
       if (!("Notification" in window)) {
-        statusEl.innerText = "Benachrichtigungen werden von dieser Ansicht nicht unterstützt.";
+        statusEl.innerText = "Benachrichtigungen werden nicht unterstützt.";
         return;
       }
       if (Notification.permission === "granted") {

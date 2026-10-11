@@ -101,9 +101,7 @@
 </head>
 <body class="min-h-screen relative flex flex-col items-center">
 
-  <!-- ========================================== -->
-  <!-- CINEMATISCHE APP-START ANIMATION MIT PNG   -->
-  <!-- ========================================== -->
+  <!-- CINEMATISCHE APP-START ANIMATION MIT PNG -->
   <div id="splashScreen" onclick="dismissSplash()" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#020108] transition-opacity duration-700 select-none cursor-pointer">
     <div class="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
       <svg viewBox="0 0 500 800" class="w-full h-full text-purple-400 stroke-current splash-cracks" fill="none">
@@ -159,7 +157,7 @@
           <span class="w-2 h-2 rounded-full bg-purple-500 animate-ping"></span>
           <p class="text-[11px] uppercase tracking-widest text-purple-300 font-extrabold" id="currentDateStr">LÄDT...</p>
         </div>
-        <p class="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold mt-0.5" id="cycleStatusStr">TAG 1 VON 3 • NEWGATE ÄRA</p>
+        <p class="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold mt-0.5" id="cycleStatusStr">TAG 2 VON 3 • NEWGATE ÄRA</p>
       </div>
       <div class="flex items-center gap-2">
         <button onclick="requestNotificationAccess()" class="p-2.5 rounded-full bg-brand-obsidian border border-brand-border text-purple-300 hover:text-white transition active:scale-95 shadow-md" title="Erinnerungen">
@@ -197,12 +195,12 @@
         </button>
         <div class="text-center flex-1">
           <h1 id="heroSplitTitle" class="text-3xl font-black tracking-tight text-white drop-shadow-[0_0_20px_rgba(168,85,247,0.7)]">
-            UNTERKÖRPER
+            OBERKÖRPER
           </h1>
           <div class="flex items-center justify-center gap-2 mt-0.5">
             <span class="h-[1px] w-6 bg-purple-500/50"></span>
             <p id="heroSplitSubtitle" class="text-xs uppercase tracking-widest text-purple-300 font-extrabold">
-              BEINE & WADEN
+              BRUST, RÜCKEN & ARME
             </p>
             <span class="h-[1px] w-6 bg-purple-500/50"></span>
           </div>
@@ -255,7 +253,7 @@
     <!-- Tonnage-Balken -->
     <section id="workoutProgressSection" class="obsidian-card rounded-2xl p-4 my-2">
       <div class="flex justify-between items-center text-xs mb-2">
-        <span class="text-zinc-300 font-bold" id="progressCountStr">0 von 5 absolviert</span>
+        <span class="text-zinc-300 font-bold" id="progressCountStr">0 von 9 absolviert</span>
         <div class="text-right">
           <span class="text-purple-300 font-black tracking-wide" id="tonnageDisplay">0 kg Tonnage</span>
           <span class="block text-[9px] uppercase tracking-wider text-purple-400/80 font-semibold" id="seismicLevelStr">STUFE: RUHE VOR DEM STURM</span>
@@ -395,7 +393,7 @@
         <p class="text-xs text-yellow-400 font-bold mt-1" id="victoryStatsBounty">+0 ฿ Kopfgeld erhalten</p>
       </div>
       <p class="text-xs italic text-zinc-300 my-4 leading-relaxed" id="victoryQuoteText">
-        "Selbst im Moment des Todes wich sein gewaltiger Körper keinen einzigen Schritt zurück. Gurararara!"
+        "Selbst im Moment des Todes wich sein gewaltiger Körper keinen einzigen Schritt zurück. Gurarara!!"
       </p>
       <button onclick="closeVictoryModal()" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white font-black rounded-xl transition active:scale-95 text-xs">
         EHRE ERWIESEN
@@ -449,15 +447,9 @@
       return `${y}-${m}-${day}`;
     }
 
-    function parseDateToDays(str) {
-      if (!str) return 0;
-      const parts = str.split('-').map(Number);
-      return Math.floor(Date.UTC(parts[0], parts[1] - 1, parts[2]) / (1000 * 60 * 60 * 24));
-    }
-
     const DEFAULT_DATA = {
-      cycleIndex: 0,
-      lastActiveDate: getTodayString(),
+      cycleOffset: 0,
+      lastDateViewed: getTodayString(),
       bounty: 1500000,
       streakHistory: {},
       creatineHistory: {},
@@ -488,6 +480,7 @@
     };
 
     let appData = JSON.parse(localStorage.getItem('wb_gym_data') || 'null') || DEFAULT_DATA;
+    if (appData.cycleOffset === undefined) appData.cycleOffset = 0;
     if (!appData.bounty) appData.bounty = 1500000;
     if (!appData.streakHistory) appData.streakHistory = {};
     if (!appData.creatineHistory) appData.creatineHistory = {};
@@ -499,6 +492,29 @@
         localStorage.setItem('wb_gym_data', JSON.stringify(appData));
       } catch (e) {
         alert("Speicher voll! Bitte entferne 1-2 alte Fotos.");
+      }
+    }
+
+    // MATHEMATISCHE ANKER-BERECHNUNG: 10.10.2026 war Tag 0 (UK)
+    function calculateCycleIndex() {
+      const now = new Date();
+      const todayUtc = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+      const anchorUtc = Date.UTC(2026, 9, 10); // 10. Okt 2026
+      const diffDays = Math.floor((todayUtc - anchorUtc) / (1000 * 60 * 60 * 24));
+      const offset = appData.cycleOffset || 0;
+      return ((diffDays + offset) % 3 + 3) % 3;
+    }
+
+    function checkDayReset() {
+      const today = getTodayString();
+      if (appData.lastDateViewed !== today) {
+        ['uk', 'ok'].forEach(k => {
+          if (appData.exercises[k]) {
+            appData.exercises[k].forEach(e => e.done = false);
+          }
+        });
+        appData.lastDateViewed = today;
+        saveAppData();
       }
     }
 
@@ -516,49 +532,20 @@
       }
     }
 
-    // --- AUTOMATISCHER MITTERNACHTS- & AUFWACH-WECHSEL ---
-    function handleMidnightCycleAdvance() {
-      const today = getTodayString();
-      if (!appData.lastActiveDate) {
-        appData.lastActiveDate = today;
-        saveAppData();
-        return;
-      }
-
-      if (appData.lastActiveDate !== today) {
-        const dPrev = parseDateToDays(appData.lastActiveDate);
-        const dCurr = parseDateToDays(today);
-        const diffDays = dCurr - dPrev;
-
-        if (diffDays > 0) {
-          appData.cycleIndex = (appData.cycleIndex + diffDays) % 3;
-          // Übungen für den neuen Tag frisch zurücksetzen
-          ['uk', 'ok'].forEach(k => {
-            if (appData.exercises[k]) {
-              appData.exercises[k].forEach(e => e.done = false);
-            }
-          });
-          appData.lastActiveDate = today;
-          saveAppData();
-          renderDate();
-          renderCurrentSplit();
-          renderBountyAndStreak();
-          initCreatineButton();
-          initMorningWeight();
-        }
-      }
-    }
-
-    // Aufwach-Sensor (reagiert sofort beim Entsperren / App-Wechsel)
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
-        handleMidnightCycleAdvance();
+        checkDayReset();
+        renderDate();
+        renderCurrentSplit();
+        renderBountyAndStreak();
+        initCreatineButton();
+        initMorningWeight();
       }
     });
 
     function init() {
       setupSplashScreen();
-      handleMidnightCycleAdvance();
+      checkDayReset();
       renderDate();
       renderCurrentSplit();
       initMorningWeight();
@@ -575,13 +562,13 @@
     }
 
     function shiftCycle(delta) {
-      appData.cycleIndex = (appData.cycleIndex + delta + 3) % 3;
-      appData.lastActiveDate = getTodayString(); // Synchronisiert sofort mit dem heutigen Tag!
+      appData.cycleOffset = (appData.cycleOffset || 0) + delta;
       saveAppData();
       renderCurrentSplit();
     }
 
     function renderCurrentSplit() {
+      const cycleIdx = calculateCycleIndex();
       const title = document.getElementById('heroSplitTitle');
       const subtitle = document.getElementById('heroSplitSubtitle');
       const cycleStatus = document.getElementById('cycleStatusStr');
@@ -589,7 +576,7 @@
       const restSection = document.getElementById('restdaySection');
       const progSection = document.getElementById('workoutProgressSection');
 
-      if (appData.cycleIndex === 0) {
+      if (cycleIdx === 0) {
         title.innerText = "UNTERKÖRPER";
         subtitle.innerText = "BEINE & WADEN";
         cycleStatus.innerText = "TAG 1 VON 3 • NEWGATE ÄRA";
@@ -597,7 +584,7 @@
         progSection.classList.remove('hidden');
         restSection.classList.add('hidden');
         renderExercises('uk');
-      } else if (appData.cycleIndex === 1) {
+      } else if (cycleIdx === 1) {
         title.innerText = "OBERKÖRPER";
         subtitle.innerText = "BRUST, RÜCKEN & ARME";
         cycleStatus.innerText = "TAG 2 VON 3 • NEWGATE ÄRA";
@@ -617,7 +604,6 @@
       updateProgress();
     }
 
-    // --- KOPFGELD & STREAK ---
     function renderBountyAndStreak() {
       document.getElementById('bountyDisplay').innerText = `${appData.bounty.toLocaleString('de-DE')} ฿`;
 
@@ -657,7 +643,6 @@
       }
     }
 
-    // --- KREATIN BUTTON ---
     function initCreatineButton() {
       const today = getTodayString();
       const isTaken = Boolean(appData.creatineHistory[today]);
@@ -706,7 +691,6 @@
       }
     }
 
-    // --- ÜBUNGEN ---
     function renderExercises(splitKey) {
       const container = document.getElementById('exerciseListContainer');
       container.innerHTML = '';
@@ -810,7 +794,6 @@
       ex.s2_reps = r2; ex.s2_kg = k2;
       ex.done = true;
 
-      // PR-Prüfung + Haptischer Schockwellen-Puls auf S25 Ultra
       if (currentMax > previousRecord && previousRecord > 0) {
         appData.records[ex.name] = currentMax;
         appData.bounty += 100000;
@@ -828,7 +811,6 @@
         appData.records[ex.name] = currentMax;
       }
 
-      // Overload Advisor
       const target = ex.targetReps || 12;
       if (r1 >= target && r2 >= target) {
         appData.overloadAlerts[ex.name] = {
@@ -850,7 +832,8 @@
     }
 
     function updateProgress() {
-      const splitKey = appData.cycleIndex === 0 ? 'uk' : (appData.cycleIndex === 1 ? 'ok' : null);
+      const cycleIdx = calculateCycleIndex();
+      const splitKey = cycleIdx === 0 ? 'uk' : (cycleIdx === 1 ? 'ok' : null);
       if (!splitKey) return;
 
       const list = appData.exercises[splitKey];
@@ -935,7 +918,6 @@
       }
     }
 
-    // Timer (Reiner Ton)
     let timerInterval = null;
     let timerRemaining = 0;
 
@@ -974,7 +956,6 @@
       document.getElementById('timerBar').classList.add('translate-y-36');
     }
 
-    // Morgen-Gewicht
     function initMorningWeight() {
       const today = getTodayString();
       document.getElementById('morningWeightInput').value = appData.weights[today] || '';
@@ -1001,7 +982,6 @@
       }
     }
 
-    // Diagramme
     function renderCharts() {
       renderWeightChart();
       populateExerciseSelect();
@@ -1078,7 +1058,6 @@
       `;
     }
 
-    // --- RESTDAY GALERIE ---
     let activePhotoIndex = 0;
     let isGhostActive = false;
 
@@ -1226,7 +1205,6 @@
       }, 450);
     }
 
-    // --- NOTIFICATIONS & BACKUP ---
     function autoAskNotification() {
       if ("Notification" in window && Notification.permission === "default") {
         setTimeout(() => { Notification.requestPermission(); }, 2500);
